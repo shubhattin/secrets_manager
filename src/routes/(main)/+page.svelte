@@ -1,5 +1,5 @@
 <script lang="ts">
-  //
+  import TopAppBar from '~/components/TopAppBar.svelte';
 </script>
 
-Scrests app
+<TopAppBar />

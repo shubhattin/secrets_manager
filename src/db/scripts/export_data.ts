@@ -1,8 +1,8 @@
 import { dbClient_ext as db, queryClient } from './client';
 import { readFile } from 'fs/promises';
-import { dbMode, take_input } from '@tools/kry_server';
-import {} from '@db/schema';
-import {} from '@db/schema_zod';
+import { dbMode, take_input } from '~/tools/kry_server';
+import {} from '~/db/schema';
+import {} from '~/db/schema_zod';
 import { z } from 'zod';
 import { sql } from 'drizzle-orm';
 

@@ -1,12 +1,11 @@
-import { UsersSchemaZod } from '@db/schema_zod';
+import { UsersSchemaZod } from '~/db/schema_zod';
 import { jwtVerify } from 'jose';
-import { JWT_SECRET } from '@tools/jwt';
+import { JWT_SECRET } from '~/tools/jwt.server';
 import type { RequestEvent } from '@sveltejs/kit';
 import type { inferAsyncReturnType } from '@trpc/server';
 
 const jwt_payload_schema = UsersSchemaZod.pick({
-  id: true,
-  user_type: true
+  id: true
 });
 
 export async function createContext(event: RequestEvent) {

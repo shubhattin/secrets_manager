@@ -12,10 +12,7 @@ const config = {
       runtime: 'edge'
     }),
     alias: {
-      '@tools/*': 'src/tools/*',
-      '@components/*': 'src/components/*',
-      '@db/*': 'src/db/*',
-      '@api/*': 'src/api/*'
+      '~/*': 'src/*'
     }
   }
 };
