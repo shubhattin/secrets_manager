@@ -23,19 +23,19 @@
   let user_id = $state(1); // 1st user(admin)
   let password = $state('');
 
-  const pass_verify = client_q.pass.verify_pass.mutation({
-    onSuccess(data) {
-      if (!data.verified) {
-        password = '';
-        pass_input_element && pass_input_element.focus();
-        wrong_pass_status = true;
-      } else {
-        is_verified = true;
-        setJwtToken(data.jwt_token);
-        if (on_verify) on_verify(is_verified, data.jwt_token);
-      }
-    }
-  });
+  // const pass_verify = client_q.pass.verify_pass.mutation({
+  //   onSuccess(data) {
+  //     if (!data.verified) {
+  //       password = '';
+  //       pass_input_element && pass_input_element.focus();
+  //       wrong_pass_status = true;
+  //     } else {
+  //       is_verified = true;
+  //       setJwtToken(data.jwt_token);
+  //       if (on_verify) on_verify(is_verified, data.jwt_token);
+  //     }
+  //   }
+  // });
 
   let wrong_pass_status = $state(false);
   $effect(() => {
@@ -44,7 +44,7 @@
 
   const check_pass_func = async () => {
     if (password === '') return;
-    $pass_verify.mutate({ user_id, password });
+    // $pass_verify.mutate({ user_id, password });
   };
 </script>
 
@@ -72,7 +72,7 @@
       type="submit"
       class="variant-filled-secondary btn rounded-lg py-1 pl-0 pr-4 font-semibold"
     >
-      <Spinner show={$pass_verify.isPending} />
+      <!-- <Spinner show={$pass_verify.isPending} /> -->
       Submit
     </button>
     <div>
