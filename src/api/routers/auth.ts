@@ -17,7 +17,7 @@ export const user_info_schema = UsersSchemaZod.pick({
 type user_info_type = z.infer<typeof user_info_schema>;
 
 const ID_TOKREN_EXPIRE = '6d';
-const ACCESS_TOKEN_EXPIRE = '2h';
+const ACCESS_TOKEN_EXPIRE = '5h';
 
 const get_id_and_aceess_token = async (user_info: user_info_type) => {
   // ID Token will be used for authentication, i.e. to verify the user's identity.

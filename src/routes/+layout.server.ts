@@ -2,6 +2,6 @@ import type { LayoutServerLoad } from './$types'; // Adjust the path based on yo
 
 export const load: LayoutServerLoad = async ({ locals }) => {
   return {
-    user: locals.user // This can be undefined if the user is not authenticated
+    user_info: locals.user // This can be undefined if the user is not authenticated
   };
 };
