@@ -2,6 +2,7 @@
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import Login from '~/components/pages/main/user/Login.svelte';
+  import UserControls from '~/components/pages/main/user/UserControls.svelte';
   import TopAppBar from '~/components/TopAppBar.svelte';
   import { user_info } from '~/state/user.svelte';
   import { ensure_auth_access_status, get_id_token_info } from '~/tools/auth_tools';
@@ -14,4 +15,8 @@
 <TopAppBar />
 {#if !user_info.value}
   <Login />
+{:else}
+  <div class="flex justify-end">
+    <UserControls />
+  </div>
 {/if}

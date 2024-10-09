@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { client_q, setAccessToken } from '~/api/client';
+  import { client_q } from '~/api/client';
   import Spinner from '~/components/Spinner.svelte';
   import { user_info } from '~/state/user.svelte';
   import { cl_join } from '~/tools/cl_join';
@@ -43,7 +43,7 @@
   };
 </script>
 
-<div class="flex justify-center" out:slide>
+<div class="flex justify-center" in:slide>
   <form onsubmit={check_pass_func} class="mt-2 w-3/5 space-y-2.5">
     <input
       type="text"
