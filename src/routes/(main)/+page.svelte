@@ -4,6 +4,7 @@
   import TopAppBar from '~/components/TopAppBar.svelte';
   import { user_info } from '~/state/user.svelte';
   import { ensure_auth_access_status, get_id_token_info } from '~/tools/auth_tools';
+  import type { PageData } from './$types';
 
   onMount(async () => {
     if (browser) await ensure_auth_access_status();

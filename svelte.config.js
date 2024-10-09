@@ -12,7 +12,7 @@ const config = {
       runtime: 'edge'
     }),
     alias: {
-      '~/*': 'src/*'
+      '~': 'src'
     }
   }
 };

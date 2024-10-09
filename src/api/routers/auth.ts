@@ -9,7 +9,7 @@ import { users } from '~/db/schema';
 import { eq } from 'drizzle-orm';
 import { delay } from '~/tools/delay';
 
-const user_info_schema = UsersSchemaZod.pick({
+export const user_info_schema = UsersSchemaZod.pick({
   id: true,
   name: true,
   user_id: true
