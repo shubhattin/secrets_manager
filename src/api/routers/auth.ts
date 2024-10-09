@@ -12,12 +12,12 @@ import { delay } from '~/tools/delay';
 export const user_info_schema = UsersSchemaZod.pick({
   id: true,
   name: true,
-  user_id: true
+  username: true
 });
 type user_info_type = z.infer<typeof user_info_schema>;
 
-const ID_TOKREN_EXPIRE = '6d';
-const ACCESS_TOKEN_EXPIRE = '5h';
+const ID_TOKREN_EXPIRE = '2d';
+const ACCESS_TOKEN_EXPIRE = '40mins';
 
 const get_id_and_aceess_token = async (user_info: user_info_type) => {
   // ID Token will be used for authentication, i.e. to verify the user's identity.
@@ -49,7 +49,7 @@ const get_id_and_aceess_token = async (user_info: user_info_type) => {
 const verify_pass_router = publicProcedure
   .input(
     z.object({
-      user_id: z.string(),
+      username: z.string(),
       password: z.string()
     })
   )
@@ -66,19 +66,19 @@ const verify_pass_router = publicProcedure
       })
     ])
   )
-  .mutation(async ({ input: { password, user_id } }) => {
+  .mutation(async ({ input: { password, username } }) => {
     let verified = false;
     await delay(600);
 
     const user_info = await db.query.users.findFirst({
-      where: (tbl, { eq }) => eq(tbl.user_id, user_id)
+      where: (tbl, { eq }) => eq(tbl.username, username)
     });
     if (!user_info) return { verified, err_code: 'user_not_found' };
 
     verified = await puShTi(password, user_info.password_hash);
     if (!verified) return { verified, err_code: 'wrong_password' };
     const { id_token, access_token } = await get_id_and_aceess_token({
-      user_id: user_info.user_id,
+      username: user_info.username,
       name: user_info.name,
       id: user_info.id
     });

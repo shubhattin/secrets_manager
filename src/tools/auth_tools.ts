@@ -5,7 +5,7 @@ import { client, setAccessToken } from '~/api/client';
 
 export const ID_TOKEN_INFO_SCHEMA = z.object({
   id: z.number().int(),
-  user_id: z.string(),
+  username: z.string(),
   name: z.string()
 });
 

@@ -6,7 +6,7 @@
   import { get_id_token_info, storeAuthInfo } from '~/tools/auth_tools';
   import { slide } from 'svelte/transition';
 
-  let user_id = $state(''); // 1st user(admin)
+  let username = $state(''); // 1st user(admin)
   let password = $state('');
   let pass_input_element = $state<HTMLInputElement>();
   let user_input_element = $state<HTMLInputElement>();
@@ -21,7 +21,7 @@
         wrong_pass_status = false;
         user_not_found_status = false;
         if (err_code === 'user_not_found') {
-          user_id = '';
+          username = '';
           password = '';
           user_not_found_status = true;
           user_input_element && user_input_element.focus();
@@ -39,17 +39,17 @@
 
   const check_pass_func = async () => {
     if (password === '') return;
-    $pass_verify.mutate({ user_id, password });
+    $pass_verify.mutate({ username, password });
   };
 </script>
 
 <div class="flex justify-center" in:slide>
-  <form onsubmit={check_pass_func} class="mt-2 w-3/5 space-y-2.5">
+  <form onsubmit={check_pass_func} class="mt-2 w-full space-y-2.5 sm:w-4/5 md:w-3/5">
     <input
       type="text"
       bind:this={user_input_element}
-      bind:value={user_id}
-      placeholder="User ID"
+      bind:value={username}
+      placeholder="Username"
       class={cl_join('input variant-form-material', user_not_found_status && 'input-warning')}
     />
     <input
