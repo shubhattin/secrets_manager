@@ -14,8 +14,8 @@ const ACCRSS_TOKEN_INFO_SCHEMA = ID_TOKEN_INFO_SCHEMA.pick({
   id: true
 });
 
-export const AUTH_ID = 'auth_id'; // id token
-export const ACCESS_ID = 'access_id';
+export const AUTH_ID_LOC = 'auth_id'; // id token
+export const ACCESS_ID_LOC = 'access_id';
 export const COOKIE_LOC = '/';
 
 export interface authRes {
@@ -23,8 +23,8 @@ export interface authRes {
   access_token: string;
 }
 export const storeAuthInfo = (res: authRes) => {
-  localStorage.setItem(ACCESS_ID, res.access_token);
-  setCookie(AUTH_ID, res.id_token, get_access_token_info().exp, COOKIE_LOC);
+  localStorage.setItem(ACCESS_ID_LOC, res.access_token);
+  setCookie(AUTH_ID_LOC, res.id_token, get_access_token_info().exp, COOKIE_LOC);
   setAccessToken(res.access_token);
 };
 
@@ -33,7 +33,7 @@ const JWT_HEADER_SCHEMA = z.object({
 });
 
 export const get_id_token_info = () => {
-  const cookie = getCookie(AUTH_ID)!;
+  const cookie = getCookie(AUTH_ID_LOC)!;
 
   // header parsing :- not returning it as it typically not required, but verifying it to be more sure of the integrity of the token
   JWT_HEADER_SCHEMA.parse(JSON.parse(from_base64(cookie.split('.')[0])));
@@ -51,7 +51,7 @@ export const get_id_token_info = () => {
 };
 
 export const get_access_token_info = () => {
-  const cookie = localStorage.getItem(ACCESS_ID)!;
+  const cookie = localStorage.getItem(ACCESS_ID_LOC)!;
 
   // header parsing :- not returning it as it typically not required, but verifying it to be more sure of the integrity of the token
   JWT_HEADER_SCHEMA.parse(JSON.parse(from_base64(cookie.split('.')[0])));
@@ -87,7 +87,7 @@ export const ensure_auth_access_status = async () => {
   // renewing our tokens if access token is expired
   try {
     get_access_token_info();
-    setAccessToken(localStorage.getItem(ACCESS_ID)!);
+    setAccessToken(localStorage.getItem(ACCESS_ID_LOC)!);
   } catch (e: any) {
     if (e instanceof Error) {
       if (e.message === 'expired') await renew_tokens_after_access_expire();
@@ -96,14 +96,14 @@ export const ensure_auth_access_status = async () => {
 };
 
 export const deleteAuthCookies = () => {
-  deleteCookie(AUTH_ID, COOKIE_LOC);
-  localStorage.removeItem(ACCESS_ID);
+  deleteCookie(AUTH_ID_LOC, COOKIE_LOC);
+  localStorage.removeItem(ACCESS_ID_LOC);
   setAccessToken('');
 };
 
 export async function renew_tokens_after_access_expire() {
   const res = await client.auth.renew_access_token.query({
-    id_token: getCookie(AUTH_ID)!
+    id_token: getCookie(AUTH_ID_LOC)!
   });
   if (!res.verified) return;
   storeAuthInfo(res);

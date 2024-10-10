@@ -6,6 +6,7 @@
   import Icon from '~/tools/Icon.svelte';
   import { client_q } from '~/api/client';
   import { useQueryClient } from '@tanstack/svelte-query';
+  import { AiOutlinePlus } from 'svelte-icons-pack/ai';
 
   const query_client = useQueryClient();
 
@@ -83,7 +84,7 @@
       type="submit"
       class="btn space-x-1 rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
     >
-      Save
+      <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
     </button>
     <button
       disabled={$add_new_cateogory_mut.isPending}

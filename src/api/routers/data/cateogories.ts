@@ -38,8 +38,19 @@ const delete_category_route = protectedProcedure
       .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id)));
   });
 
+const update_category_info_route = protectedProcedure
+  .input(z.object({ category_id: z.number(), description: z.string().min(3).max(60) }))
+  .mutation(async ({ ctx: { user }, input: { category_id, description } }) => {
+    await delay(600);
+    await db
+      .update(categories)
+      .set({ description })
+      .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id)));
+  });
+
 export const categories_router = t.router({
   get_user_categories: get_user_categories_route,
   add_category: add_category_route,
-  delete_category: delete_category_route
+  delete_category: delete_category_route,
+  update_category_info: update_category_info_route
 });

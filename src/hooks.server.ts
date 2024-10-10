@@ -1,5 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
-import { AUTH_ID } from '~/tools/auth_tools';
+import { AUTH_ID_LOC } from '~/tools/auth_tools';
 import { jwtVerify } from 'jose';
 import { JWT_SECRET } from '~/tools/jwt.server';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ export const handle_trpc: Handle = createTRPCHandle({ router, createContext });
 export const handle: Handle = async ({ event, resolve }) => {
   try {
     // this is for verifying the user's identity and not the authorization
-    const id_token = event.cookies.get(AUTH_ID);
+    const id_token = event.cookies.get(AUTH_ID_LOC);
     const id_token_payload_schema = z.object({
       user: user_info_schema,
       type: z.literal('login')
