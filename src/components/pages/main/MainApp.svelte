@@ -1,23 +1,86 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
-  import { createQuery } from '@tanstack/svelte-query';
-  import { client } from '~/api/client';
-  import { user_info } from '~/state/user.svelte';
+  import { cateogories } from './state.svelte';
+  import { VscAdd } from 'svelte-icons-pack/vsc';
+  import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
+  import { scale, slide } from 'svelte/transition';
+  import Icon from '~/tools/Icon.svelte';
+  import { client_q } from '~/api/client';
 
-  const cateogories = $derived(
-    createQuery({
-      queryKey: ['categories'],
-      enabled: browser && !!user_info.value,
-      queryFn: async () => {
-        const data = await client.data.categories.get_user_categories.query();
-        return data;
-      }
-    })
-  );
+  let add_section_opened = $state(false);
+
+  let new_category_description = $state('');
+  let new_category_description_element = $state<HTMLInputElement>();
+
+  const add_new_cateogory_mut = client_q.data.categories.add_category.mutation({
+    async onSuccess() {
+      new_category_description = '';
+      add_section_opened = false;
+    }
+  });
 </script>
 
-{#if !$cateogories.isFetching && $cateogories.isSuccess}
-  {#each $cateogories.data as category (category.id)}
-    <div>{category.description}</div>
-  {/each}
+<button
+  disabled={add_section_opened}
+  onclick={() => {
+    add_section_opened = true;
+    setTimeout(() => {
+      new_category_description_element && new_category_description_element.focus();
+    }, 400 + 50);
+  }}
+  class="btn space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
+>
+  <Icon src={VscAdd} class="text-2xl" />
+  <span>Add New Cateogory</span>
+</button>
+{#if add_section_opened}
+  {@render add_new_section()}
 {/if}
+{#if !$cateogories.isFetching && $cateogories.isSuccess}
+  <div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
+    {#each $cateogories.data as category (category.id)}
+      <button
+        class="btn text-wrap rounded-md border border-amber-600 outline-none dark:border-yellow-400"
+      >
+        {category.description}
+      </button>
+    {/each}
+  </div>
+{/if}
+
+{#snippet add_new_section()}
+  <form
+    out:slide
+    in:scale
+    class="mt-2 space-x-2"
+    onsubmit={() => {
+      $add_new_cateogory_mut.mutateAsync({
+        description: new_category_description
+      });
+    }}
+  >
+    <input
+      type="text"
+      min={3}
+      max={60}
+      required
+      bind:this={new_category_description_element}
+      bind:value={new_category_description}
+      placeholder="Description"
+      class="input inline-block w-4/5 rounded-md"
+    />
+    <button
+      disabled={$add_new_cateogory_mut.isPending}
+      type="submit"
+      class="btn space-x-1 rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
+    >
+      Save
+    </button>
+    <button
+      disabled={$add_new_cateogory_mut.isPending}
+      onclick={() => (add_section_opened = false)}
+      class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
+    >
+      <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
+    </button>
+  </form>
+{/snippet}

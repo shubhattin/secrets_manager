@@ -13,7 +13,6 @@
   });
 </script>
 
-<TopAppBar />
 {#if !user_info.value}
   <Login />
 {:else}

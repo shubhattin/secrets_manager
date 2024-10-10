@@ -10,6 +10,7 @@
   import type { Snippet } from 'svelte';
   import { queryClient } from '~/state/query';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
+  import TopAppBar from '~/components/TopAppBar.svelte';
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
@@ -20,11 +21,14 @@
   user_info.value = data.user_info;
 </script>
 
-<Modal />
-<ModeWatcher />
-<div class="contaiiner mx-auto mb-1 max-w-screen-lg">
-  <QueryClientProvider client={queryClient}>
-    {@render children()}
-    <SvelteQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>
-</div>
+<QueryClientProvider client={queryClient}>
+  <Modal />
+  <ModeWatcher />
+  <div class="contaiiner mx-auto mb-1 max-w-screen-lg">
+    <TopAppBar />
+    <div class="mx-2">
+      {@render children()}
+    </div>
+  </div>
+  <SvelteQueryDevtools initialIsOpen={false} />
+</QueryClientProvider>
