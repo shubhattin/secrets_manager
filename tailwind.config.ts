@@ -14,7 +14,7 @@ const config = {
   },
   plugins: [
     skeleton({
-      themes: { preset: ['gold-nouveau'] }
+      themes: { preset: ['wintry'] }
     }),
     forms
   ]
