@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { cateogories } from './state.svelte';
+  import { CATEGORY_QUERY_KEY, cateogories } from './state.svelte';
   import { VscAdd } from 'svelte-icons-pack/vsc';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { scale, slide } from 'svelte/transition';
   import Icon from '~/tools/Icon.svelte';
   import { client_q } from '~/api/client';
+  import { useQueryClient } from '@tanstack/svelte-query';
+
+  const query_client = useQueryClient();
 
   let add_section_opened = $state(false);
 
@@ -12,15 +15,17 @@
   let new_category_description_element = $state<HTMLInputElement>();
 
   const add_new_cateogory_mut = client_q.data.categories.add_category.mutation({
-    async onSuccess() {
+    async onSuccess(new_data) {
       new_category_description = '';
       add_section_opened = false;
+      const old_data = $cateogories.data!;
+      query_client.setQueryData(CATEGORY_QUERY_KEY, [new_data, ...old_data]);
     }
   });
 </script>
 
 <button
-  disabled={add_section_opened}
+  disabled={add_section_opened || !(!$cateogories.isFetching && $cateogories.isSuccess)}
   onclick={() => {
     add_section_opened = true;
     setTimeout(() => {
@@ -35,8 +40,8 @@
 {#if add_section_opened}
   {@render add_new_section()}
 {/if}
-{#if !$cateogories.isFetching && $cateogories.isSuccess}
-  <div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
+  {#if !$cateogories.isFetching && $cateogories.isSuccess}
     {#each $cateogories.data as category (category.id)}
       <button
         class="btn text-wrap rounded-md border border-amber-600 outline-none dark:border-yellow-400"
@@ -44,8 +49,12 @@
         {category.description}
       </button>
     {/each}
-  </div>
-{/if}
+  {:else}
+    {#each Array.from({ length: 6 }) as _}
+      <div class="placeholder h-10 animate-pulse rounded-md"></div>
+    {/each}
+  {/if}
+</div>
 
 {#snippet add_new_section()}
   <form
