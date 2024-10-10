@@ -7,7 +7,7 @@ import { get_derived_query } from '~/tools/query';
 
 export const CATEGORY_QUERY_KEY = ['categories'];
 
-export const cateogories = get_derived_query([toStore(() => user_info.value)], ([$user_info]) =>
+export const categories = get_derived_query([toStore(() => user_info.value)], ([$user_info]) =>
   // this actually does not depends on user_info after logout it will automatically go into inactive state
   createQuery({
     queryKey: ['categories'],
@@ -18,3 +18,7 @@ export const cateogories = get_derived_query([toStore(() => user_info.value)], (
     }
   })
 );
+
+export let selected_category_id = $state<{
+  value: number | null;
+}>({ value: null });
