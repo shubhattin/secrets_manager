@@ -13,7 +13,7 @@ export const categories = pgTable('categories', {
   user_id: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  description: varchar('description', { length: 60 }).notNull()
+  description: text('description').notNull()
 });
 
 export const items = pgTable('items', {
@@ -21,7 +21,7 @@ export const items = pgTable('items', {
   category_id: integer('category_id')
     .notNull()
     .references(() => categories.id, { onDelete: 'cascade' }),
-  description_encrypted: varchar('description_encrypted', { length: 60 }).notNull(),
+  description_encrypted: text('description_encrypted').notNull(),
   text_encrypted: text('text_encrypted').notNull().default('')
 });
 

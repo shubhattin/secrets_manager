@@ -7,7 +7,7 @@ import { delay } from '~/tools/delay';
 
 const get_user_categories_route = protectedProcedure.query(async ({ ctx: { user } }) => {
   await delay(300);
-  const data = db.query.categories.findMany({
+  const data = await db.query.categories.findMany({
     columns: {
       id: true,
       description: true
@@ -30,7 +30,7 @@ const add_category_route = protectedProcedure
   });
 
 const delete_category_route = protectedProcedure
-  .input(z.object({ category_id: z.number() }))
+  .input(z.object({ category_id: z.number().int() }))
   .mutation(async ({ ctx: { user }, input: { category_id } }) => {
     await delay(600);
     await db
@@ -39,7 +39,7 @@ const delete_category_route = protectedProcedure
   });
 
 const update_category_info_route = protectedProcedure
-  .input(z.object({ category_id: z.number(), description: z.string().min(3).max(60) }))
+  .input(z.object({ category_id: z.number().int(), description: z.string().min(3).max(60) }))
   .mutation(async ({ ctx: { user }, input: { category_id, description } }) => {
     await delay(600);
     await db
