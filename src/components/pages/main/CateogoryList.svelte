@@ -45,7 +45,7 @@
   {#if !$categories_q.isFetching && $categories_q.isSuccess}
     {#each $categories_q.data as category (category.id)}
       <button
-        onclick={() => (selected_category_id.value = category.id)}
+        onclick={() => ($selected_category_id = category.id)}
         class="btn text-wrap rounded-md border border-amber-600 outline-none dark:border-yellow-400"
       >
         {category.description}

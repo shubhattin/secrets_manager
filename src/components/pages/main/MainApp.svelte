@@ -5,7 +5,7 @@
   import { scale, slide } from 'svelte/transition';
 </script>
 
-{#if !selected_category_id.value}
+{#if !$selected_category_id}
   <div in:scale out:slide>
     <CateogoryList />
   </div>

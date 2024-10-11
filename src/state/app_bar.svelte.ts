@@ -1,8 +1,9 @@
-export let main_app_bar_info = $state<{
-  value: { title?: string; className?: string };
+import { writable } from 'svelte/store';
+
+export let main_app_bar_info = writable<{
+  title?: string;
+  className?: string;
 }>({
-  value: {
-    title: undefined,
-    className: undefined
-  }
+  title: undefined,
+  className: undefined
 });

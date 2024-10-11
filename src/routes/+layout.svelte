@@ -17,8 +17,7 @@
   initializeStores();
   // set up the floating UI for popups
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
-
-  user_info.value = data.user_info;
+  if (data.user_info) $user_info = data.user_info;
 </script>
 
 <QueryClientProvider client={queryClient}>

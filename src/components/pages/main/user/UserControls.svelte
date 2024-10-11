@@ -18,9 +18,9 @@
       response: (resp: boolean) => {
         if (!resp) return;
         deleteAuthCookies();
-        user_info.value = undefined;
-        text_editing_status.value = false;
-        selected_category_id.value = null;
+        $user_info = null!;
+        $text_editing_status = false;
+        $selected_category_id = null;
       }
     };
     modalStore.trigger(modal);
@@ -41,12 +41,12 @@
   <div class="select-none space-y-2 p-1">
     <div class="text-center text-base font-bold">
       <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
-      {user_info.value!.name}
-      <span class="text-sm text-gray-500 dark:text-gray-400">({user_info.value!.username})</span>
+      {$user_info!.name}
+      <span class="text-sm text-gray-500 dark:text-gray-400">({$user_info!.username})</span>
     </div>
     <div class="select-none space-y-2 p-1">
       <button
-        on:click={log_out}
+        onclick={log_out}
         class="variant-filled-error btn m-0 rounded-md pb-1 pl-1 pr-2 pt-0 font-bold"
       >
         <Icon class="text-2xl" src={BiLogOut} />

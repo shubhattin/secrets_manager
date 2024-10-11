@@ -32,7 +32,7 @@
         }
       } else {
         storeAuthInfo(data);
-        user_info.value = get_id_token_info().user;
+        $user_info = get_id_token_info().user;
       }
     }
   });

@@ -16,12 +16,12 @@
   $effect(() => {
     if (page_url in PAGE_TITLES) {
       const [TITLE, CLASS]: string[] = PAGE_TITLES[page_url as keyof typeof PAGE_TITLES];
-      main_app_bar_info.value = {
+      $main_app_bar_info = {
         title: TITLE,
         className: CLASS
       };
     } else if ($page.error) {
-      main_app_bar_info.value = {
+      $main_app_bar_info = {
         title: undefined,
         className: undefined
       };
@@ -44,9 +44,7 @@
     {#if headline}
       {@render headline()}
     {:else}
-      <span class={main_app_bar_info.value.className ?? ''}
-        >{main_app_bar_info.value.title ?? ''}</span
-      >
+      <span class={$main_app_bar_info.className ?? ''}>{$main_app_bar_info.title ?? ''}</span>
     {/if}
   </svelte:fragment>
   <!-- <svelte:fragment slot="headline">

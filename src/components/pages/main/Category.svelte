@@ -4,8 +4,7 @@
     selected_category_id,
     categories_q,
     CATEGORY_QUERY_KEY,
-    text_editing_status,
-    items_q
+    text_editing_status
   } from './state.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
@@ -19,9 +18,7 @@
   const modalStore = getModalStore();
   const query_client = useQueryClient();
 
-  let cateogory = $derived(
-    $categories_q.data!.filter((c) => c.id === selected_category_id.value)[0]
-  );
+  let cateogory = $derived($categories_q.data!.filter((c) => c.id === $selected_category_id)[0]);
 
   let category_edit_status = $state(false);
   let new_category_description = $state('');
@@ -31,7 +28,7 @@
     if (category_edit_status) new_category_description = cateogory.description;
   });
   $effect(() => {
-    text_editing_status.value = category_edit_status;
+    $text_editing_status = category_edit_status;
   });
 
   const delete_category_mut = client_q.data.categories.delete_category.mutation({
@@ -40,7 +37,7 @@
         CATEGORY_QUERY_KEY,
         $categories_q.data!.filter((c) => c.id !== cateogory.id)
       );
-      selected_category_id.value = null;
+      $selected_category_id = null;
     }
   });
   const delete_category_func = async () => {
@@ -85,7 +82,7 @@
 
 <div class="flex space-x-7">
   <span class="space-x-2">
-    <button class="btn m-0 p-0 outline-none" onclick={() => (selected_category_id.value = null)}>
+    <button class="btn m-0 p-0 outline-none" onclick={() => ($selected_category_id = null)}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
