@@ -18,7 +18,6 @@
   const modalStore = getModalStore();
   const query_client = useQueryClient();
 
-  // @ts-ignore
   let cateogory = $derived($categories.data!.filter((c) => c.id === selected_category_id.value)[0]);
 
   let category_edit_status = $state(false);
@@ -36,7 +35,6 @@
     async onSuccess() {
       query_client.setQueryData(
         CATEGORY_QUERY_KEY,
-        // @ts-ignore
         $categories.data!.filter((c) => c.id !== cateogory.id)
       );
       selected_category_id.value = null;
@@ -59,7 +57,6 @@
     async onSuccess() {
       query_client.setQueryData(
         CATEGORY_QUERY_KEY,
-        // @ts-ignore
         $categories.data!.map((c) =>
           c.id !== cateogory.id ? c : { ...c, description: new_category_description }
         )
