@@ -7,6 +7,7 @@
   import { user_info } from '~/state/user.svelte';
   import { VscAccount } from 'svelte-icons-pack/vsc';
   import { AiOutlineUser } from 'svelte-icons-pack/ai';
+  import { selected_category_id, text_editing_status } from '../state.svelte';
 
   const modalStore = getModalStore();
 
@@ -18,6 +19,8 @@
         if (!resp) return;
         deleteAuthCookies();
         user_info.value = undefined;
+        text_editing_status.value = false;
+        selected_category_id.value = null;
       }
     };
     modalStore.trigger(modal);

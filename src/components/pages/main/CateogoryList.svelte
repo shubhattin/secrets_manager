@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CATEGORY_QUERY_KEY, categories, selected_category_id } from './state.svelte';
+  import { CATEGORY_QUERY_KEY, categories_q, selected_category_id } from './state.svelte';
   import { VscAdd } from 'svelte-icons-pack/vsc';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { scale, slide } from 'svelte/transition';
@@ -19,14 +19,14 @@
     async onSuccess(new_data) {
       new_category_description = '';
       add_section_opened = false;
-      const old_data = $categories.data!;
+      const old_data = $categories_q.data!;
       query_client.setQueryData(CATEGORY_QUERY_KEY, [new_data, ...old_data]);
     }
   });
 </script>
 
 <button
-  disabled={add_section_opened || !(!$categories.isFetching && $categories.isSuccess)}
+  disabled={add_section_opened || !(!$categories_q.isFetching && $categories_q.isSuccess)}
   onclick={() => {
     add_section_opened = true;
     setTimeout(() => {
@@ -42,8 +42,8 @@
   {@render add_new_section()}
 {/if}
 <div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
-  {#if !$categories.isFetching && $categories.isSuccess}
-    {#each $categories.data as category (category.id)}
+  {#if !$categories_q.isFetching && $categories_q.isSuccess}
+    {#each $categories_q.data as category (category.id)}
       <button
         onclick={() => (selected_category_id.value = category.id)}
         class="btn text-wrap rounded-md border border-amber-600 outline-none dark:border-yellow-400"

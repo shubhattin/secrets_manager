@@ -2,9 +2,10 @@
   import { AiOutlineDelete, AiOutlineEdit } from 'svelte-icons-pack/ai';
   import {
     selected_category_id,
-    categories,
+    categories_q,
     CATEGORY_QUERY_KEY,
-    text_editing_status
+    text_editing_status,
+    items_q
   } from './state.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
@@ -18,7 +19,9 @@
   const modalStore = getModalStore();
   const query_client = useQueryClient();
 
-  let cateogory = $derived($categories.data!.filter((c) => c.id === selected_category_id.value)[0]);
+  let cateogory = $derived(
+    $categories_q.data!.filter((c) => c.id === selected_category_id.value)[0]
+  );
 
   let category_edit_status = $state(false);
   let new_category_description = $state('');
@@ -35,7 +38,7 @@
     async onSuccess() {
       query_client.setQueryData(
         CATEGORY_QUERY_KEY,
-        $categories.data!.filter((c) => c.id !== cateogory.id)
+        $categories_q.data!.filter((c) => c.id !== cateogory.id)
       );
       selected_category_id.value = null;
     }
@@ -57,7 +60,7 @@
     async onSuccess() {
       query_client.setQueryData(
         CATEGORY_QUERY_KEY,
-        $categories.data!.map((c) =>
+        $categories_q.data!.map((c) =>
           c.id !== cateogory.id ? c : { ...c, description: new_category_description }
         )
       );
@@ -88,14 +91,14 @@
     {#if !category_edit_status}
       <span class="text-2xl font-bold">{cateogory.description}</span>
     {:else}
-      <form in:scale out:slide class="inline-block space-x-3" onsubmit={update_category_func}>
+      <div in:scale out:slide class="inline-block space-x-3">
         <input
           bind:this={new_category_description_element}
           bind:value={new_category_description}
           class="input w-60 rounded-md px-2 py-1"
         />
         <button
-          type="submit"
+          onclick={update_category_func}
           disabled={$update_category_mut.isPending}
           class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
         >
@@ -108,7 +111,7 @@
         >
           <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
         </button>
-      </form>
+      </div>
     {/if}
   </span>
   {#if !category_edit_status}
@@ -135,3 +138,12 @@
     </span>
   {/if}
 </div>
+<!-- {#if !$items_q.isFetching && $items_q.isSuccess}
+  Success
+{:else}
+  {#each Array.from({ length: 3 }) as _}
+    <div>
+      <div class="placeholder animate-pulse"></div>
+    </div>
+  {/each}
+{/if} -->
