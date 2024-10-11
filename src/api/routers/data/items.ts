@@ -25,7 +25,7 @@ const get_items_route = protectedProcedure
   )
   .output(ItemsSchemaZod.omit({ category_id: true }).array())
   .query(async ({ ctx: { user }, input: { category_id } }) => {
-    await delay(300);
+    await delay(600);
 
     if (!(await verify_category_user(user.id, category_id))) return [];
 

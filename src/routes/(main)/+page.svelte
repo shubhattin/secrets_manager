@@ -12,6 +12,9 @@
   });
 </script>
 
+<svelte:head>
+  <title>Secrets</title>
+</svelte:head>
 {#if !$user_info}
   <Login />
 {:else}

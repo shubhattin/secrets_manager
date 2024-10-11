@@ -4,7 +4,8 @@
     selected_category_id,
     categories_q,
     CATEGORY_QUERY_KEY,
-    text_editing_status
+    text_editing_status,
+    items_q
   } from './state.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
@@ -14,6 +15,7 @@
   import { BiSave } from 'svelte-icons-pack/bi';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { fade, scale, slide } from 'svelte/transition';
+  import Item from './Item.svelte';
 
   const modalStore = getModalStore();
   const query_client = useQueryClient();
@@ -78,11 +80,15 @@
         })
     });
   };
+
+  function go_back_to_list() {
+    $selected_category_id = null;
+  }
 </script>
 
-<div class="flex space-x-7">
+<div class="mb-4 flex space-x-7">
   <span class="space-x-2">
-    <button class="btn m-0 p-0 outline-none" onclick={() => ($selected_category_id = null)}>
+    <button class="btn m-0 p-0 outline-none" onclick={go_back_to_list}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
@@ -135,12 +141,22 @@
     </span>
   {/if}
 </div>
-<!-- {#if !$items_q.isFetching && $items_q.isSuccess}
-  Success
-{:else}
-  {#each Array.from({ length: 3 }) as _}
-    <div>
-      <div class="placeholder animate-pulse"></div>
+{#if !$items_q.isFetching && $items_q.isSuccess}
+  Add
+  {#if $items_q.data!.length !== 0}
+    <div class="space-y-4">
+      {#each $items_q.data as item (item.id)}
+        <Item {item} />
+      {/each}
     </div>
-  {/each}
-{/if} -->
+  {/if}
+{:else}
+  <div class="space-y-4">
+    {#each Array.from({ length: 2 }) as _}
+      <div class="space-y-1.5">
+        <div class="placeholder h-8 w-2/5 animate-pulse rounded-md"></div>
+        <div class="placeholder h-28 w-4/5 animate-pulse rounded-md"></div>
+      </div>
+    {/each}
+  </div>
+{/if}
