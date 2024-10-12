@@ -11,7 +11,7 @@ async function generateKeyBuffer(key: string) {
 }
 
 // Encryption function
-async function encrypt_text(text: string, key: string) {
+export async function encrypt_text(text: string, key: string) {
   const keyBuffer = await generateKeyBuffer(key);
   const iv = crypto.getRandomValues(new Uint8Array(16));
   const encoder = new TextEncoder();
@@ -25,7 +25,7 @@ async function encrypt_text(text: string, key: string) {
 }
 
 // Decryption function
-async function decrypt_text(encrypted: string, key: string) {
+export async function decrypt_text(encrypted: string, key: string) {
   const [ivBase64, encryptedBase64] = encrypted.split('-');
   const iv = Uint8Array.from(atob(ivBase64), (c) => c.charCodeAt(0));
   const encryptedData = Uint8Array.from(atob(encryptedBase64), (c) => c.charCodeAt(0));

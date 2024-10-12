@@ -14,7 +14,7 @@ async function verify_category_user(user_id: number, category_id: number) {
     },
     where: (tbl, { eq }) => eq(tbl.id, category_id)
   });
-  return category_user && category_user.user_id !== user_id;
+  return category_user && category_user.user_id === user_id;
 }
 
 const get_items_route = protectedProcedure

@@ -4,8 +4,7 @@
     selected_category_id,
     categories_q,
     CATEGORY_QUERY_KEY,
-    text_editing_status,
-    items_q
+    text_editing_status
   } from './state.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
@@ -15,7 +14,7 @@
   import { BiSave } from 'svelte-icons-pack/bi';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { fade, scale, slide } from 'svelte/transition';
-  import Item from './Item.svelte';
+  import Items from './ItemList.svelte';
 
   const modalStore = getModalStore();
   const query_client = useQueryClient();
@@ -141,22 +140,4 @@
     </span>
   {/if}
 </div>
-{#if !$items_q.isFetching && $items_q.isSuccess}
-  Add
-  {#if $items_q.data!.length !== 0}
-    <div class="space-y-4">
-      {#each $items_q.data as item (item.id)}
-        <Item {item} />
-      {/each}
-    </div>
-  {/if}
-{:else}
-  <div class="space-y-4">
-    {#each Array.from({ length: 2 }) as _}
-      <div class="space-y-1.5">
-        <div class="placeholder h-8 w-2/5 animate-pulse rounded-md"></div>
-        <div class="placeholder h-28 w-4/5 animate-pulse rounded-md"></div>
-      </div>
-    {/each}
-  </div>
-{/if}
+<Items />
