@@ -1,7 +1,7 @@
 import { setCookie, getCookie, getTime, deleteCookie } from '~/tools/cookies';
 import { from_base64 } from '~/tools/kry';
 import { z } from 'zod';
-import { client, setAccessToken } from '~/api/client';
+import { client, setAccessToken, setTokenRenewStarted } from '~/api/client';
 
 export const ID_TOKEN_INFO_SCHEMA = z.object({
   id: z.number().int(),
@@ -79,8 +79,6 @@ export const ensure_auth_access_status = async () => {
     get_id_token_info();
   } catch {
     deleteAuthCookies();
-    // TODO
-    // if on user_manage page, redirect to home page
     return;
   }
 
@@ -102,10 +100,12 @@ export const deleteAuthCookies = () => {
 };
 
 export async function renew_tokens_after_access_expire() {
+  setTokenRenewStarted(true);
   const res = await client.auth.renew_access_token.query({
     id_token: getCookie(AUTH_ID_LOC)!
   });
   if (!res.verified) return;
+  setTokenRenewStarted(false);
   storeAuthInfo(res);
   setAccessToken(res.access_token);
 }

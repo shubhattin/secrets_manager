@@ -18,7 +18,7 @@
       response: (resp: boolean) => {
         if (!resp) return;
         deleteAuthCookies();
-        $user_info = null!;
+        $user_info = null;
         $text_editing_status = false;
         $selected_category_id = null;
       }

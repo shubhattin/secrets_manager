@@ -7,7 +7,7 @@
   import '../app.pcss';
   import type { LayoutData } from './$types';
   import { user_info } from '~/state/user.svelte';
-  import type { Snippet } from 'svelte';
+  import { onMount, type Snippet } from 'svelte';
   import { queryClient } from '~/state/queryClient';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
   import TopAppBar from '~/components/TopAppBar.svelte';
@@ -17,6 +17,7 @@
   initializeStores();
   // set up the floating UI for popups
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+  $user_info = null;
   if (data.user_info) $user_info = data.user_info;
 </script>
 
