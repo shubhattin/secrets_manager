@@ -14,6 +14,8 @@
   import { TiTick } from 'svelte-icons-pack/ti';
   import { encrypt_text, decrypt_text } from '~/tools/encrypt_decrypt';
   import Item from './Item.svelte';
+  import { OiUnlock16 } from 'svelte-icons-pack/oi';
+  import { get_textarea_height } from '~/tools/kry';
 
   const modalStore = getModalStore();
   const query_client = useQueryClient();
@@ -99,10 +101,14 @@
         type="submit"
         class={cl_join(
           'btn rounded-md px-2 py-1 text-white outline-none',
-          !passkey_is_set && 'bg-green-600'
+          !passkey_is_set ? 'bg-green-600' : 'bg-amber-600'
         )}
       >
-        <Icon src={TiTick} class="-mx-2 -my-2 text-3xl" />
+        {#if !passkey_is_set}
+          <Icon src={TiTick} class="-mx-2 -my-2 text-3xl" />
+        {:else}
+          <Icon src={OiUnlock16} class="-mx-1 -mt-1 text-2xl" />
+        {/if}
       </button>
     </form>
   {:else if $items_q.data!.length === 0}
@@ -150,11 +156,11 @@
           bind:this={new_item_name_element}
           bind:value={new_item_name}
           placeholder="Description"
-          class="input inline-block w-4/5 rounded-md"
+          class="input inline-block w-3/5 rounded-md"
         />
         <button
           onclick={add_new_iteam_func}
-          class="btn space-x-1 rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
+          class="btn rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
         >
           <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
         </button>
@@ -165,7 +171,10 @@
           <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
         </button>
       </div>
-      <textarea bind:value={new_item_text} class="textarea min-h-28 w-5/6 rounded-md px-2 py-1"
+      <textarea
+        bind:value={new_item_text}
+        class="textarea min-h-28 w-5/6 rounded-md px-2 py-1"
+        style:height={get_textarea_height(new_item_text)}
       ></textarea>
     </div>
   {/if}

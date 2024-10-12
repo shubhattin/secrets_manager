@@ -95,3 +95,7 @@ export function get_permutations(range: [number, number], count: number = 1): nu
   }
   return permutations;
 }
+
+export function get_textarea_height(text: string, single_line_height = 1.5, min_line = 3) {
+  return `${Math.max(min_line, text.split('\n').length) * (single_line_height + 0.1)}rem`;
+}

@@ -45,6 +45,7 @@ const add_item_route = protectedProcedure
   .input(ItemsSchemaZod.omit({ id: true }))
   .mutation(
     async ({ ctx: { user }, input: { category_id, description_encrypted, text_encrypted } }) => {
+      await delay(500);
       if (!(await verify_category_user(user.id, category_id))) return;
 
       const inserted = await db
@@ -67,6 +68,7 @@ const delete_item_route = protectedProcedure
     })
   )
   .mutation(async ({ ctx: { user }, input: { category_id, item_id } }) => {
+    await delay(500);
     if (!(await verify_category_user(user.id, category_id))) return;
 
     // we have to make sure that the item_id -> category_id -> user_id
@@ -77,6 +79,7 @@ const delete_item_route = protectedProcedure
 const update_item_route = protectedProcedure
   .input(ItemsSchemaZod)
   .mutation(async ({ ctx: { user }, input }) => {
+    await delay(500);
     if (!(await verify_category_user(user.id, input.category_id))) return;
 
     // we have to make sure that the item_id -> category_id -> user_id
@@ -85,6 +88,8 @@ const update_item_route = protectedProcedure
       .update(items)
       .set(input)
       .where(and(eq(items.id, input.id), eq(items.category_id, input.category_id)));
+
+    return input;
   });
 
 export const items_router = t.router({

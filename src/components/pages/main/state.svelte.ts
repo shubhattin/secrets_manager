@@ -44,7 +44,7 @@ export const items_q = get_derived_query(
     return createQuery(
       {
         queryKey: get_item_query_key($selected_category_id!),
-        enabled: browser && !!$user_info,
+        enabled: browser && !!$user_info && !!$selected_category_id,
         queryFn: async () => {
           const data = await client.data.items.get_items.query({
             category_id: $selected_category_id!

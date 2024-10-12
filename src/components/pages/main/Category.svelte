@@ -26,9 +26,6 @@
   let new_category_description_element = $state<HTMLInputElement>();
 
   $effect(() => {
-    if (category_edit_status) new_category_description = cateogory.description;
-  });
-  $effect(() => {
     $text_editing_status = category_edit_status;
   });
 
@@ -121,11 +118,12 @@
       <button
         onclick={() => {
           category_edit_status = true;
+          new_category_description = cateogory.description;
           setTimeout(() => {
             new_category_description_element && new_category_description_element.focus();
           }, 400 + 50);
         }}
-        disabled={$delete_category_mut.isPending}
+        disabled={$text_editing_status || $delete_category_mut.isPending}
         class="btn rounded-md bg-warning-700 px-2 py-1"
       >
         <Icon src={AiOutlineEdit} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
