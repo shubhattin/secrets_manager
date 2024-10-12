@@ -45,9 +45,9 @@ const main = async () => {
   try {
     await db.delete(categories);
     await db.insert(categories).values(data.categories);
-    console.log('Successfully added values into table `categories`');
     // resetting the SERIAL
     await db.execute(sql`SELECT setval('categories_id_seq', (select MAX(id) from categories))`);
+    console.log('Successfully added values into table `categories`');
   } catch {
     console.log('Failed to add values into table `categories`');
   }

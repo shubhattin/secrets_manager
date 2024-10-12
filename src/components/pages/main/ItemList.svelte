@@ -28,10 +28,8 @@
   let passkey = $state('');
   let passkey_element = $state<HTMLInputElement>();
 
-  onMount(() => {
-    setTimeout(() => {
-      passkey_element && passkey_element.focus();
-    }, 700 + 50);
+  $effect(() => {
+    passkey_element?.focus();
   });
 
   const add_item_mut = client_q.data.items.add_item.mutation({
