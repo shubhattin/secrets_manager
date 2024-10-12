@@ -1,9 +1,41 @@
-import { pgTable, serial, date, varchar, integer, text, char, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, integer, text, char } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
-  user_id: varchar('user_id', { length: 25 }).notNull().unique(),
+  username: varchar('username', { length: 25 }).notNull().unique(),
   password_hash: char('password_hash', { length: 96 }).notNull() // SHA-256 hash + salt of length 32
 });
+
+export const categories = pgTable('categories', {
+  id: serial('id').primaryKey(),
+  user_id: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  description: text('description').notNull()
+});
+
+export const items = pgTable('items', {
+  id: serial('id').primaryKey(),
+  category_id: integer('category_id')
+    .notNull()
+    .references(() => categories.id, { onDelete: 'cascade' }),
+  description_encrypted: text('description_encrypted').notNull(),
+  text_encrypted: text('text_encrypted').notNull().default('')
+});
+
+// relations
+
+export const userRelation = relations(users, ({ many }) => ({
+  categories: many(categories)
+}));
+
+export const categoryRelation = relations(categories, ({ one, many }) => ({
+  user: one(users, { fields: [categories.user_id], references: [users.id] }),
+  items: many(items)
+}));
+
+export const itemRelation = relations(items, ({ one }) => ({
+  category: one(categories, { fields: [items.category_id], references: [categories.id] })
+}));

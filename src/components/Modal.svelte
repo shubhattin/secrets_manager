@@ -12,7 +12,8 @@
     confirm_btn_txt,
     onOpen,
     onClose,
-    onConfirm
+    onConfirm,
+    close_on_click_outside = true
   }: {
     modal_open: boolean;
     children: Snippet;
@@ -21,6 +22,7 @@
     onOpen?: () => void;
     onClose?: () => void;
     onConfirm?: () => void;
+    close_on_click_outside: boolean;
   } = $props();
 
   let modalElement = $state<HTMLElement>(null!);
@@ -33,12 +35,6 @@
   const unlockScroll = () => {
     document.body.style.overflow = '';
   };
-
-  $effect(() => {
-    const $opened = untrack(() => opened);
-    if (modal_open && !$opened) openModal();
-    else if (!modal_open && $opened) closeModal();
-  });
 
   const animationDuration = 400;
   let is_closing = $state(false); // to fix transition not being displayed while exiting
@@ -67,16 +63,26 @@
   };
   onMount(() => {
     document.addEventListener('click', (e) => {
-      if (visibleModal && !visibleModal.querySelector('article')?.contains(e.target as Node)) {
+      if (
+        close_on_click_outside &&
+        visibleModal &&
+        !visibleModal.querySelector('article')?.contains(e.target as Node)
+      ) {
         closeModal();
       }
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && visibleModal) {
+      if (close_on_click_outside && e.key === 'Escape' && visibleModal) {
         closeModal();
       }
     });
+  });
+
+  $effect(() => {
+    const $opened = untrack(() => opened);
+    if (modal_open && !$opened) openModal();
+    else if (!modal_open && $opened) closeModal();
   });
 </script>
 
