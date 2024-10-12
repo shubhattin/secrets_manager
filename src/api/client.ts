@@ -22,7 +22,6 @@ const client_options = {
       url: '/trpc',
       async headers() {
         if (!token_renew_started) await ensure_auth_access_status();
-        console.log('continue');
         return {
           Authorization: `Bearer ${access_token}`
         };

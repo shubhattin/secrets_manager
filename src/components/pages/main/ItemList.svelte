@@ -156,7 +156,7 @@
           bind:this={new_item_name_element}
           bind:value={new_item_name}
           placeholder="Description"
-          class="input inline-block w-3/5 rounded-md"
+          class="input inline-block w-3/5 rounded-md py-1 text-sm"
         />
         <button
           onclick={add_new_iteam_func}
@@ -173,8 +173,8 @@
       </div>
       <textarea
         bind:value={new_item_text}
-        class="textarea min-h-28 w-5/6 rounded-md px-2 py-1"
-        style:height={get_textarea_height(new_item_text)}
+        class="textarea min-h-28 w-5/6 rounded-md px-2 py-1 text-sm"
+        style:height={get_textarea_height(new_item_text, 1.25, 4)}
       ></textarea>
     </div>
   {/if}

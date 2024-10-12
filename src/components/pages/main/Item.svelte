@@ -92,7 +92,7 @@
   {#await get_decrypted() then decrypted}
     {#if !item_edit_status}
       <div class="space-x-4">
-        <span class="text-xl font-bold">{decrypted.description}</span>
+        <span class="text-lg font-bold">{decrypted.description}</span>
         <span class="space-x-0" in:fade>
           <button
             disabled={$text_editing_status || $delete_item_mut.isPending}
@@ -114,9 +114,9 @@
           </button>
         </span>
       </div>
-      <div>
+      <div class="rounded-md border-2 border-gray-300 p-1 text-sm dark:border-gray-700">
         {#each decrypted.text.split('\n') as line}
-          <div>{line}</div>
+          <div>{line === '' ? '\u200c' : line}</div>
         {/each}
       </div>
     {:else}
@@ -129,7 +129,7 @@
             required
             bind:value={updated_item_name}
             placeholder="Description"
-            class="input inline-block w-3/5 rounded-md py-1"
+            class="input inline-block w-3/5 rounded-md py-1 text-sm"
           />
           <span class="space-x-1">
             <button
@@ -150,8 +150,8 @@
         </div>
         <textarea
           bind:value={updated_item_text}
-          class="textarea min-h-28 w-5/6 rounded-md px-2 py-1"
-          style:height={get_textarea_height(updated_item_text)}
+          class="textarea w-5/6 rounded-md px-2 py-1 text-sm"
+          style:height={get_textarea_height(updated_item_text, 1.25, 4)}
         ></textarea>
       </div>
     {/if}
