@@ -8,6 +8,13 @@
       "when": 1728633542737,
       "tag": "0000_sweet_joshua_kane",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1729068809830,
+      "tag": "0001_wild_silverclaw",
+      "breakpoints": true
     }
   ]
 }

@@ -41,6 +41,9 @@ importers:
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.29.5(@neondatabase/serverless@0.8.1)(@types/pg@8.6.6)(postgres@3.4.4))(zod@3.23.8)
+      hash-wasm:
+        specifier: ^4.11.0
+        version: 4.11.0
       lucide-svelte:
         specifier: ^0.395.0
         version: 0.395.0(svelte@5.0.0-next.244)
@@ -1594,6 +1597,9 @@ packages:
 
   has-unicode@2.0.1:
     resolution: {integrity: sha512-8Rf9Y83NBReMnx0gFzA8JImQACstCYWUplepDa9xprwwtmgEZUF0h/i5xSA625zB/I37EtrswSST6OXxwaaIJQ==}
+
+  hash-wasm@4.11.0:
+    resolution: {integrity: sha512-HVusNXlVqHe0fzIzdQOGolnFN6mX/fqcrSAOcTBXdvzrXVHwTz11vXeKRmkR5gTuwVpvHZEIyKoePDvuAR+XwQ==}
 
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
@@ -3568,6 +3574,8 @@ snapshots:
       sisteransi: 1.0.5
 
   has-unicode@2.0.1: {}
+
+  hash-wasm@4.11.0: {}
 
   hasown@2.0.2:
     dependencies:

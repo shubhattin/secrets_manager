@@ -1,11 +1,11 @@
-import { pgTable, serial, varchar, integer, text, char } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, integer, text } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
   username: varchar('username', { length: 25 }).notNull().unique(),
-  password_hash: char('password_hash', { length: 96 }).notNull() // SHA-256 hash + salt of length 32
+  password_hash: varchar('password_hash', { length: 96 }).notNull()
 });
 
 export const categories = pgTable('categories', {
