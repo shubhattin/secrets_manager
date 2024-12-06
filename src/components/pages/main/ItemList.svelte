@@ -8,8 +8,6 @@
   import { useQueryClient } from '@tanstack/svelte-query';
   import { client_q } from '~/api/client';
   import { get_item_query_key, selected_category_id } from './state.svelte';
-  import { getModalStore } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte';
   import { cl_join } from '~/tools/cl_join';
   import { TiTick } from 'svelte-icons-pack/ti';
   import { encrypt_text, decrypt_text } from '~/tools/encrypt_decrypt';
@@ -17,7 +15,6 @@
   import { OiUnlock16 } from 'svelte-icons-pack/oi';
   import { get_textarea_height } from '~/tools/kry';
 
-  const modalStore = getModalStore();
   const query_client = useQueryClient();
   let new_item_add_opened = $state(false);
   let new_item_name = $state('');
@@ -46,25 +43,26 @@
   });
 
   function add_new_iteam_func() {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you want to add a new item ?',
-      response: (resp: boolean) =>
-        resp &&
-        (async () => {
-          const description_encrypted = await encrypt_text(new_item_name, passkey);
-          const text_encrypted = await encrypt_text(new_item_text, passkey);
-          $add_item_mut.mutate({
-            category_id: $selected_category_id!,
-            description_encrypted,
-            text_encrypted
-          });
-        })()
-    });
+    // modalStore.trigger({
+    //   type: 'confirm',
+    //   title: 'Please Confirm',
+    //   body: 'Are you sure you want to add a new item ?',
+    //   response: (resp: boolean) =>
+    //     resp &&
+    //     (async () => {
+    //       const description_encrypted = await encrypt_text(new_item_name, passkey);
+    //       const text_encrypted = await encrypt_text(new_item_text, passkey);
+    //       $add_item_mut.mutate({
+    //         category_id: $selected_category_id!,
+    //         description_encrypted,
+    //         text_encrypted
+    //       });
+    //     })()
+    // });
   }
 
-  async function set_passkey_func() {
+  async function set_passkey_func(e: Event) {
+    e.preventDefault();
     if ($items_q.data && $items_q.data.length !== 0) {
       // we to verify it its true
       try {

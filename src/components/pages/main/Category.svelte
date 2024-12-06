@@ -1,5 +1,6 @@
 <script lang="ts">
   import { AiOutlineDelete, AiOutlineEdit } from 'svelte-icons-pack/ai';
+  import { Popover } from '@skeletonlabs/skeleton-svelte';
   import {
     selected_category_id,
     categories_q,
@@ -10,13 +11,11 @@
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
   import { client_q } from '~/api/client';
   import { useQueryClient } from '@tanstack/svelte-query';
-  import { getModalStore } from '@skeletonlabs/skeleton';
   import { BiSave } from 'svelte-icons-pack/bi';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { fade, scale, slide } from 'svelte/transition';
   import Items from './ItemList.svelte';
 
-  const modalStore = getModalStore();
   const query_client = useQueryClient();
 
   let cateogory = $derived($categories_q.data!.filter((c) => c.id === $selected_category_id)[0]);
@@ -39,16 +38,16 @@
     }
   });
   const delete_category_func = async () => {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you delete this Cateogory ?',
-      response: (resp: boolean) =>
-        resp &&
-        $delete_category_mut.mutate({
-          category_id: cateogory.id
-        })
-    });
+    // modalStore.trigger({
+    //   type: 'confirm',
+    //   title: 'Please Confirm',
+    //   body: 'Are you sure you delete this Cateogory ?',
+    //   response: (resp: boolean) =>
+    //     resp &&
+    //     $delete_category_mut.mutate({
+    //       category_id: cateogory.id
+    //     })
+    // });
   };
 
   const update_category_mut = client_q.data.categories.update_category_info.mutation({
@@ -64,17 +63,17 @@
     }
   });
   const update_category_func = () => {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you change the Description ?',
-      response: (resp: boolean) =>
-        resp &&
-        $update_category_mut.mutate({
-          description: new_category_description,
-          category_id: cateogory.id
-        })
-    });
+    // modalStore.trigger({
+    //   type: 'confirm',
+    //   title: 'Please Confirm',
+    //   body: 'Are you sure you change the Description ?',
+    //   response: (resp: boolean) =>
+    //     resp &&
+    //     $update_category_mut.mutate({
+    //       description: new_category_description,
+    //       category_id: cateogory.id
+    //     })
+    // });
   };
 
   function go_back_to_list() {
@@ -96,13 +95,20 @@
           bind:value={new_category_description}
           class="input w-60 rounded-md px-2 py-1"
         />
-        <button
-          onclick={update_category_func}
-          disabled={$update_category_mut.isPending}
-          class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
-        >
-          <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
-        </button>
+        <Popover positioning={{ placement: 'left' }} arrow>
+          {#snippet trigger()}
+            <button
+              disabled={$update_category_mut.isPending}
+              class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
+            >
+              <!-- onclick={update_category_func} -->
+              <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
+            </button>
+          {/snippet}
+          {#snippet content()}
+            confirm
+          {/snippet}
+        </Popover>
         <button
           onclick={() => (category_edit_status = false)}
           disabled={$update_category_mut.isPending}

@@ -37,7 +37,8 @@
     }
   });
 
-  const check_pass_func = async () => {
+  const check_pass_func = async (e: Event) => {
+    e.preventDefault();
     if (password === '') return;
     $pass_verify.mutate({ username, password });
   };
@@ -50,10 +51,10 @@
       bind:this={user_input_element}
       bind:value={username}
       placeholder="Username"
-      class={cl_join('input variant-form-material', user_not_found_status && 'input-warning')}
+      class={cl_join('variant-form-material input', user_not_found_status && 'input-warning')}
     />
     <input
-      class={cl_join('input variant-form-material', wrong_pass_status && 'input-error')}
+      class={cl_join('variant-form-material input', wrong_pass_status && 'input-error')}
       type="password"
       bind:this={pass_input_element}
       bind:value={password}

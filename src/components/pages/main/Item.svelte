@@ -12,7 +12,6 @@
   import { type client } from '~/api/client';
   import { decrypt_text, encrypt_text } from '~/tools/encrypt_decrypt';
   import Icon from '~/tools/Icon.svelte';
-  import { getModalStore } from '@skeletonlabs/skeleton';
   import { get_textarea_height } from '~/tools/kry';
   import { AiOutlineClose } from 'svelte-icons-pack/ai';
   import { TiTick } from 'svelte-icons-pack/ti';
@@ -20,7 +19,6 @@
   type item_type = Awaited<ReturnType<typeof client.data.items.get_items.query>>[0];
   let { item, passkey }: { item: item_type; passkey: string } = $props();
 
-  const modalStore = getModalStore();
   const query_client = useQueryClient();
 
   $effect(() => {
@@ -46,17 +44,17 @@
     }
   });
   function delete_item_func() {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: `Are you sure you want to delete this item ?`,
-      response: (resp: boolean) =>
-        resp &&
-        $delete_item_mut.mutate({
-          category_id: $selected_category_id!,
-          item_id: item.id
-        })
-    });
+    // modalStore.trigger({
+    //   type: 'confirm',
+    //   title: 'Please Confirm',
+    //   body: `Are you sure you want to delete this item ?`,
+    //   response: (resp: boolean) =>
+    //     resp &&
+    //     $delete_item_mut.mutate({
+    //       category_id: $selected_category_id!,
+    //       item_id: item.id
+    //     })
+    // });
   }
 
   const edit_item_mut = client_q.data.items.update_item.mutation({
@@ -70,21 +68,21 @@
     }
   });
   function edit_item_func() {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: `Are you sure you want to edit this item ?`,
-      response: (resp: boolean) =>
-        resp &&
-        (async () => {
-          $edit_item_mut.mutate({
-            category_id: $selected_category_id!,
-            id: item.id,
-            description_encrypted: await encrypt_text(updated_item_name, passkey),
-            text_encrypted: await encrypt_text(updated_item_text, passkey)
-          });
-        })()
-    });
+    // modalStore.trigger({
+    //   type: 'confirm',
+    //   title: 'Please Confirm',
+    //   body: `Are you sure you want to edit this item ?`,
+    //   response: (resp: boolean) =>
+    //     resp &&
+    //     (async () => {
+    //       $edit_item_mut.mutate({
+    //         category_id: $selected_category_id!,
+    //         id: item.id,
+    //         description_encrypted: await encrypt_text(updated_item_name, passkey),
+    //         text_encrypted: await encrypt_text(updated_item_text, passkey)
+    //       });
+    //     })()
+    // });
   }
 </script>
 

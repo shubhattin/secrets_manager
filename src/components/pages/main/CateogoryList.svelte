@@ -63,7 +63,8 @@
     out:slide
     in:scale
     class="mt-2 space-x-2"
-    onsubmit={() => {
+    onsubmit={(e) => {
+      e.preventDefault();
       $add_new_cateogory_mut.mutateAsync({
         description: new_category_description
       });
