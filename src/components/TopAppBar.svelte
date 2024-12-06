@@ -47,12 +47,12 @@
       positioning={{ placement: 'left-start' }}
       arrow={false}
       contentBase="card z-50 space-y-2 rounded-lg px-3 py-2 shadow-xl bg-surface-100-900"
-      triggerBase="btn m-0 p-0 gap-0"
+      triggerBase="btn m-0 p-0 gap-0 outline-none select-none"
     >
       {#snippet trigger()}
         <Icon
           src={AiOutlineMenu}
-          class="text-3xl outline-none hover:text-gray-500 active:text-blue-600 dark:hover:text-gray-400 dark:active:text-blue-400"
+          class="text-3xl hover:text-gray-500 active:text-blue-600 dark:hover:text-gray-400 dark:active:text-blue-400"
         />
       {/snippet}
       {#snippet content()}

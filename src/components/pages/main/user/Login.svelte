@@ -51,10 +51,10 @@
       bind:this={user_input_element}
       bind:value={username}
       placeholder="Username"
-      class={cl_join('variant-form-material input', user_not_found_status && 'input-warning')}
+      class={cl_join('input rounded-md px-2 py-1', user_not_found_status && 'preset-tonal-warning')}
     />
     <input
-      class={cl_join('variant-form-material input', wrong_pass_status && 'input-error')}
+      class={cl_join('input rounded-md px-2 py-1', wrong_pass_status && 'preset-tonal-error')}
       type="password"
       bind:this={pass_input_element}
       bind:value={password}
@@ -62,7 +62,7 @@
       minlength={6}
       required
     />
-    <button type="submit" class="btn rounded-lg bg-tertiary-700 py-1 pl-0 pr-4 font-semibold">
+    <button type="submit" class="btn gap-0 rounded-lg bg-primary-800 py-1 pl-0 pr-4 font-semibold">
       <Spinner show={$pass_verify.isPending} />
       <span class="text-white">Submit</span>
     </button>

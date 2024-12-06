@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Popover, Modal } from '@skeletonlabs/skeleton-svelte';
   import Icon from '~/tools/Icon.svelte';
   import { BiLogOut } from 'svelte-icons-pack/bi';
   import { deleteAuthCookies } from '~/tools/auth_tools';
@@ -7,45 +8,66 @@
   import { AiOutlineUser } from 'svelte-icons-pack/ai';
   import { selected_category_id, text_editing_status } from '../state.svelte';
 
+  let user_info_popover_status = $state(false);
+  let logout_modal_status = $state(false);
   const log_out = () => {
-    // const modal: ModalSettings = {
-    //   type: 'confirm',
-    //   title: 'Are you Sure to Log Out ?',
-    //   response: (resp: boolean) => {
-    //     if (!resp) return;
-    //     deleteAuthCookies();
-    //     $user_info = null;
-    //     $text_editing_status = false;
-    //     $selected_category_id = null;
-    //   }
-    // };
-    // modalStore.trigger(modal);
+    deleteAuthCookies();
+    logout_modal_status = false;
+    $user_info = null;
+    $text_editing_status = false;
+    $selected_category_id = null;
   };
 </script>
 
-<button class="btn m-2 p-0">
-  <!-- use:popup={{
-    event: 'click',
-    target: 'user_info',
-    placement: 'left-start'
-  }} -->
-  <Icon class="hover:text-gray-6200 text-3xl dark:hover:text-gray-400" src={VscAccount} />
-</button>
-<div class="card z-40 px-1 py-2 shadow-2xl" data-popup="user_info">
-  <div class="select-none space-y-2 p-1">
-    <div class="text-center text-base font-bold">
-      <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
-      {$user_info!.name}
-      <span class="text-sm text-gray-500 dark:text-gray-400">({$user_info!.username})</span>
-    </div>
+<Popover
+  bind:open={user_info_popover_status}
+  triggerBase="btn m-2 p-0 select-none outline-none"
+  contentBase="card z-40 pt-1 px-1 shadow-2xl bg-surface-100-900 rounded-lg"
+  positioning={{ placement: 'left-start' }}
+>
+  {#snippet trigger()}
+    <Icon class="hover:text-gray-6200 text-3xl dark:hover:text-gray-400" src={VscAccount} />
+  {/snippet}
+  {#snippet content()}
     <div class="select-none space-y-2 p-1">
-      <button
-        onclick={log_out}
-        class="variant-filled-error btn m-0 rounded-md pb-1 pl-1 pr-2 pt-0 font-bold"
-      >
-        <Icon class="text-2xl" src={BiLogOut} />
-        <span>Logout</span>
-      </button>
+      <div class="text-center text-base font-bold">
+        <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
+        {$user_info!.name}
+        <span class="text-sm text-gray-500 dark:text-gray-400">({$user_info!.username})</span>
+      </div>
+      <div class="select-none space-y-2 p-1">
+        <Modal
+          bind:open={logout_modal_status}
+          contentBase="card z-50 space-y-2 rounded-lg px-3 py-2 shadow-xl bg-surface-100-900"
+          backdropBackground="backdrop-blur-sm"
+        >
+          {#snippet trigger()}
+            <span
+              class="btn m-0 gap-1 rounded-md bg-error-600 pb-1 pl-1 pr-2 pt-0 font-bold text-white"
+            >
+              <Icon class="text-2xl" src={BiLogOut} />
+              <span>Logout</span>
+            </span>
+          {/snippet}
+          {#snippet content()}
+            <div class="text-lg font-bold">Are you sure to logout ?</div>
+            <div class="space-x-2">
+              <button
+                class="btn rounded-lg font-semibold preset-filled-surface-300-700"
+                onclick={log_out}
+              >
+                Confirm
+              </button>
+              <button
+                onclick={() => (logout_modal_status = false)}
+                class="btn rounded-lg font-semibold preset-outlined-surface-800-200"
+              >
+                Cancel
+              </button>
+            </div>
+          {/snippet}
+        </Modal>
+      </div>
     </div>
-  </div>
-</div>
+  {/snippet}
+</Popover>
