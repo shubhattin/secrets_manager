@@ -33,7 +33,7 @@
       new_category_description_element && new_category_description_element.focus();
     }, 400 + 50);
   }}
-  class="btn space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
+  class="btn gap-1 space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
 >
   <Icon src={VscAdd} class="text-2xl" />
   <span>Add New Cateogory</span>
