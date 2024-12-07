@@ -14,6 +14,7 @@
   import Item from './Item.svelte';
   import { OiUnlock16 } from 'svelte-icons-pack/oi';
   import { get_textarea_height } from '~/tools/kry';
+  import ConfirmPopover from '~/components/PopoverModals/ConfirmPopover.svelte';
 
   const query_client = useQueryClient();
   let new_item_add_opened = $state(false);
@@ -29,6 +30,8 @@
     passkey_element?.focus();
   });
 
+  let add_new_item_popup_state = $state(false);
+
   const add_item_mut = client_q.data.items.add_item.mutation({
     async onSuccess(new_data) {
       new_item_text = '';
@@ -41,25 +44,6 @@
       ]);
     }
   });
-
-  function add_new_iteam_func() {
-    // modalStore.trigger({
-    //   type: 'confirm',
-    //   title: 'Please Confirm',
-    //   body: 'Are you sure you want to add a new item ?',
-    //   response: (resp: boolean) =>
-    //     resp &&
-    //     (async () => {
-    //       const description_encrypted = await encrypt_text(new_item_name, passkey);
-    //       const text_encrypted = await encrypt_text(new_item_text, passkey);
-    //       $add_item_mut.mutate({
-    //         category_id: $selected_category_id!,
-    //         description_encrypted,
-    //         text_encrypted
-    //       });
-    //     })()
-    // });
-  }
 
   async function set_passkey_func(e: Event) {
     e.preventDefault();
@@ -154,12 +138,27 @@
           placeholder="Description"
           class="input inline-block w-3/5 rounded-md py-1 text-sm"
         />
-        <button
-          onclick={add_new_iteam_func}
-          class="btn rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
+        <ConfirmPopover
+          description="Are you sure you want to add a new item ?"
+          placement="top"
+          bind:popup_state={add_new_item_popup_state}
+          confirm_func={async () => {
+            const description_encrypted = await encrypt_text(new_item_name, passkey);
+            const text_encrypted = await encrypt_text(new_item_text, passkey);
+            $add_item_mut.mutate({
+              category_id: $selected_category_id!,
+              description_encrypted,
+              text_encrypted
+            });
+            add_new_item_popup_state = false;
+          }}
         >
-          <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
-        </button>
+          <button
+            class="btn rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
+          >
+            <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
+          </button>
+        </ConfirmPopover>
         <button
           onclick={() => (new_item_add_opened = false)}
           class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"

@@ -48,6 +48,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@floating-ui/dom": "^1.6.12",
     "@fontsource/roboto": "^5.1.0",
     "@neondatabase/serverless": "^0.8.1",
     "@sveltejs/adapter-vercel": "^5.5.0",
