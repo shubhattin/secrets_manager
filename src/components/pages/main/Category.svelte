@@ -1,6 +1,5 @@
 <script lang="ts">
   import { AiOutlineDelete, AiOutlineEdit } from 'svelte-icons-pack/ai';
-  import { Popover } from '@skeletonlabs/skeleton-svelte';
   import {
     selected_category_id,
     categories_q,
@@ -72,7 +71,7 @@
         <input
           bind:this={new_category_description_element}
           bind:value={new_category_description}
-          class="input w-60 rounded-md px-2 py-1"
+          class="input inline-block w-60 rounded-md px-2 py-1"
         />
         <ConfirmPopover
           bind:popup_state={update_popup_status}

@@ -75,7 +75,7 @@
         bind:this={passkey_element}
         min={3}
         placeholder={passkey_is_set ? 'Passkey' : 'Set Passkey'}
-        class="input w-3/5 rounded-md px-2 py-1"
+        class="input inline-block w-3/5 rounded-md px-2 py-1"
       />
       <button
         type="submit"
