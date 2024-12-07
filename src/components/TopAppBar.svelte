@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { AppBar, popup } from '@skeletonlabs/skeleton';
-  import type { PopupSettings } from '@skeletonlabs/skeleton';
+  import { AppBar, Popover } from '@skeletonlabs/skeleton-svelte';
   import ThemeChanger from './ThemeChanger.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { SiGithub } from 'svelte-icons-pack/si';
@@ -27,17 +26,11 @@
       };
     }
   });
-
-  const app_menu_popup: PopupSettings = {
-    event: 'click',
-    target: 'app_bar_menu',
-    placement: 'left-end',
-    closeQuery: '.will-close'
-  };
+  let app_bar_popover_status = $state(false);
 </script>
 
 <AppBar>
-  <svelte:fragment slot="lead">
+  {#snippet lead()}
     {#if start}
       {@render start()}
     {/if}
@@ -46,37 +39,41 @@
     {:else}
       <span class={$main_app_bar_info.className ?? ''}>{$main_app_bar_info.title ?? ''}</span>
     {/if}
-  </svelte:fragment>
-  <!-- <svelte:fragment slot="headline">
-		<slot name="headline"><span></span></slot>
-	</svelte:fragment> -->
-  <svelte:fragment slot="trail">
-    {#if end}
-      {@render end()}
-    {/if}
-    <button class="btn m-0 p-0" use:popup={app_menu_popup} title="App Menu">
-      <Icon
-        src={AiOutlineMenu}
-        class="text-3xl hover:text-gray-500 active:text-blue-600 dark:hover:text-gray-400 dark:active:text-blue-400"
-      />
-    </button>
-    <div class="card z-50 space-y-2 rounded-lg px-3 py-2 shadow-xl" data-popup="app_bar_menu">
-      <a
-        href="https://github.com/shubhattin/secrets_manager"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="will-close group flex space-x-1 rounded-md px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-700"
-      >
+  {/snippet}
+  {#snippet trail()}
+    {@render end?.()}
+    <Popover
+      bind:open={app_bar_popover_status}
+      positioning={{ placement: 'left-start' }}
+      arrow={false}
+      contentBase="card z-50 space-y-2 rounded-lg px-3 py-2 shadow-xl bg-surface-100-900"
+      triggerBase="btn m-0 p-0 gap-0 outline-none select-none"
+    >
+      {#snippet trigger()}
         <Icon
-          src={SiGithub}
-          class="-mt-1 mr-1 text-2xl group-hover:fill-indigo-700 dark:group-hover:fill-zinc-400"
+          src={AiOutlineMenu}
+          class="text-3xl hover:text-gray-500 active:text-blue-600 dark:hover:text-gray-400 dark:active:text-blue-400"
         />
-        <span>Github</span>
-      </a>
-      <div class="wont-close flex space-x-3 rounded-md px-2 py-1">
-        <span class="mt-1">Set Theme</span>
-        <ThemeChanger />
-      </div>
-    </div>
-  </svelte:fragment>
+      {/snippet}
+      {#snippet content()}
+        <a
+          href="https://github.com/shubhattin/secrets_manager"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="will-close group flex space-x-1 rounded-md px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-700"
+          onclick={() => (app_bar_popover_status = false)}
+        >
+          <Icon
+            src={SiGithub}
+            class="-mt-1 mr-1 text-2xl group-hover:fill-indigo-700 dark:group-hover:fill-zinc-400"
+          />
+          <span>Github</span>
+        </a>
+        <div class="wont-close flex space-x-3 rounded-md px-2 py-1">
+          <span class="mt-1">Set Theme</span>
+          <ThemeChanger />
+        </div>
+      {/snippet}
+    </Popover>
+  {/snippet}
 </AppBar>

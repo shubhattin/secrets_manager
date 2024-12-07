@@ -10,13 +10,12 @@
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
   import { client_q } from '~/api/client';
   import { useQueryClient } from '@tanstack/svelte-query';
-  import { getModalStore } from '@skeletonlabs/skeleton';
   import { BiSave } from 'svelte-icons-pack/bi';
   import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
   import { fade, scale, slide } from 'svelte/transition';
   import Items from './ItemList.svelte';
+  import ConfirmPopover from '~/components/PopoverModals/ConfirmPopover.svelte';
 
-  const modalStore = getModalStore();
   const query_client = useQueryClient();
 
   let cateogory = $derived($categories_q.data!.filter((c) => c.id === $selected_category_id)[0]);
@@ -24,6 +23,9 @@
   let category_edit_status = $state(false);
   let new_category_description = $state('');
   let new_category_description_element = $state<HTMLInputElement>();
+
+  let delete_popup_status = $state(false);
+  let update_popup_status = $state(false);
 
   $effect(() => {
     $text_editing_status = category_edit_status;
@@ -38,18 +40,6 @@
       $selected_category_id = null;
     }
   });
-  const delete_category_func = async () => {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you delete this Cateogory ?',
-      response: (resp: boolean) =>
-        resp &&
-        $delete_category_mut.mutate({
-          category_id: cateogory.id
-        })
-    });
-  };
 
   const update_category_mut = client_q.data.categories.update_category_info.mutation({
     async onSuccess() {
@@ -63,19 +53,6 @@
       category_edit_status = false;
     }
   });
-  const update_category_func = () => {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you change the Description ?',
-      response: (resp: boolean) =>
-        resp &&
-        $update_category_mut.mutate({
-          description: new_category_description,
-          category_id: cateogory.id
-        })
-    });
-  };
 
   function go_back_to_list() {
     $selected_category_id = null;
@@ -84,7 +61,7 @@
 
 <div class="mb-4 flex space-x-7">
   <span class="space-x-2">
-    <button class="btn m-0 p-0 outline-none" onclick={go_back_to_list}>
+    <button class="btn m-0 gap-0 p-0 outline-none" onclick={go_back_to_list}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
@@ -94,15 +71,28 @@
         <input
           bind:this={new_category_description_element}
           bind:value={new_category_description}
-          class="input w-60 rounded-md px-2 py-1"
+          class="input inline-block w-60 rounded-md px-2 py-1"
         />
-        <button
-          onclick={update_category_func}
-          disabled={$update_category_mut.isPending}
-          class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
+        <ConfirmPopover
+          bind:popup_state={update_popup_status}
+          description="Are you sure to change the Description ?"
+          cancel_func={() => (update_popup_status = false)}
+          confirm_func={() => {
+            $update_category_mut.mutate({
+              description: new_category_description,
+              category_id: cateogory.id
+            });
+            update_popup_status = false;
+          }}
+          placement="left"
         >
-          <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
-        </button>
+          <button
+            disabled={$update_category_mut.isPending}
+            class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
+          >
+            <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
+          </button>
+        </ConfirmPopover>
         <button
           onclick={() => (category_edit_status = false)}
           disabled={$update_category_mut.isPending}
@@ -128,13 +118,25 @@
       >
         <Icon src={AiOutlineEdit} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
       </button>
-      <button
-        onclick={delete_category_func}
-        disabled={$delete_category_mut.isPending}
-        class="btn rounded-md bg-error-600 px-2 py-1"
+      <ConfirmPopover
+        bind:popup_state={delete_popup_status}
+        description="Are you sure to delete this Category ?"
+        cancel_func={() => (delete_popup_status = false)}
+        confirm_func={() => {
+          $delete_category_mut.mutate({
+            category_id: cateogory.id
+          });
+          delete_popup_status = false;
+        }}
+        placement="left"
       >
-        <Icon src={AiOutlineDelete} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
-      </button>
+        <button
+          disabled={$delete_category_mut.isPending}
+          class="btn rounded-md bg-error-600 px-2 py-1"
+        >
+          <Icon src={AiOutlineDelete} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
+        </button>
+      </ConfirmPopover>
     </span>
   {/if}
 </div>

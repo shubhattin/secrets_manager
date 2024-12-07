@@ -12,15 +12,14 @@
   import { type client } from '~/api/client';
   import { decrypt_text, encrypt_text } from '~/tools/encrypt_decrypt';
   import Icon from '~/tools/Icon.svelte';
-  import { getModalStore } from '@skeletonlabs/skeleton';
   import { get_textarea_height } from '~/tools/kry';
   import { AiOutlineClose } from 'svelte-icons-pack/ai';
   import { TiTick } from 'svelte-icons-pack/ti';
+  import ConfirmPopover from '~/components/PopoverModals/ConfirmPopover.svelte';
 
   type item_type = Awaited<ReturnType<typeof client.data.items.get_items.query>>[0];
   let { item, passkey }: { item: item_type; passkey: string } = $props();
 
-  const modalStore = getModalStore();
   const query_client = useQueryClient();
 
   $effect(() => {
@@ -37,6 +36,9 @@
   let updated_item_name = $state('');
   let updated_item_text = $state('');
 
+  let delete_popup_state = $state(false);
+  let edit_popup_state = $state(false);
+
   const delete_item_mut = client_q.data.items.delete_item.mutation({
     async onSuccess() {
       query_client.setQueryData(
@@ -45,19 +47,6 @@
       );
     }
   });
-  function delete_item_func() {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: `Are you sure you want to delete this item ?`,
-      response: (resp: boolean) =>
-        resp &&
-        $delete_item_mut.mutate({
-          category_id: $selected_category_id!,
-          item_id: item.id
-        })
-    });
-  }
 
   const edit_item_mut = client_q.data.items.update_item.mutation({
     async onSuccess(data) {
@@ -69,23 +58,6 @@
       item_edit_status = false;
     }
   });
-  function edit_item_func() {
-    modalStore.trigger({
-      type: 'confirm',
-      title: 'Please Confirm',
-      body: `Are you sure you want to edit this item ?`,
-      response: (resp: boolean) =>
-        resp &&
-        (async () => {
-          $edit_item_mut.mutate({
-            category_id: $selected_category_id!,
-            id: item.id,
-            description_encrypted: await encrypt_text(updated_item_name, passkey),
-            text_encrypted: await encrypt_text(updated_item_text, passkey)
-          });
-        })()
-    });
-  }
 </script>
 
 <div class="space-y-0">
@@ -105,13 +77,25 @@
           >
             <Icon src={AiOutlineEdit} class="-mt-1 text-xl" />
           </button>
-          <button
-            disabled={$delete_item_mut.isPending}
-            onclick={delete_item_func}
-            class="btn rounded-md px-2 py-0 outline-none"
+          <ConfirmPopover
+            description="Are you sure you want to delete this item ?"
+            placement="top"
+            bind:popup_state={delete_popup_state}
+            confirm_func={() => {
+              $delete_item_mut.mutate({
+                category_id: $selected_category_id!,
+                item_id: item.id
+              });
+              delete_popup_state = false;
+            }}
           >
-            <Icon src={AiOutlineDelete} class="-mt-1 text-xl" />
-          </button>
+            <button
+              disabled={$delete_item_mut.isPending}
+              class="btn rounded-md px-2 py-0 outline-none"
+            >
+              <Icon src={AiOutlineDelete} class="-mt-1 text-xl" />
+            </button>
+          </ConfirmPopover>
         </span>
       </div>
       <div class="rounded-md border-2 border-gray-300 p-1 text-sm dark:border-gray-700">
@@ -132,13 +116,27 @@
             class="input inline-block w-3/5 rounded-md py-1 text-sm"
           />
           <span class="space-x-1">
-            <button
-              onclick={edit_item_func}
-              disabled={$edit_item_mut.isPending}
-              class="btn m-0 rounded-md p-0 outline-none"
+            <ConfirmPopover
+              description="Please Confirm"
+              placement="top"
+              bind:popup_state={edit_popup_state}
+              confirm_func={async () => {
+                $edit_item_mut.mutate({
+                  category_id: $selected_category_id!,
+                  id: item.id,
+                  description_encrypted: await encrypt_text(updated_item_name, passkey),
+                  text_encrypted: await encrypt_text(updated_item_text, passkey)
+                });
+                edit_popup_state = false;
+              }}
             >
-              <Icon src={TiTick} class="-m-1 text-2xl" />
-            </button>
+              <button
+                disabled={$edit_item_mut.isPending}
+                class="btn m-0 rounded-md p-0 outline-none"
+              >
+                <Icon src={TiTick} class="-m-1 text-2xl" />
+              </button>
+            </ConfirmPopover>
             <button
               disabled={$edit_item_mut.isPending}
               onclick={() => (item_edit_status = false)}
