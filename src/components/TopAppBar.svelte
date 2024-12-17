@@ -5,27 +5,13 @@
   import { SiGithub } from 'svelte-icons-pack/si';
   import { AiOutlineMenu } from 'svelte-icons-pack/ai';
   import { page } from '$app/stores';
-  import { main_app_bar_info } from '~/state/app_bar.svelte';
   import { PAGE_TITLES } from '~/state/page_titles';
   import type { Snippet } from 'svelte';
 
   let { start, headline, end }: { start?: Snippet; headline?: Snippet; end?: Snippet } = $props();
-  let page_url = $derived($page.url.pathname);
 
-  $effect(() => {
-    if (page_url in PAGE_TITLES) {
-      const [TITLE, CLASS]: string[] = PAGE_TITLES[page_url as keyof typeof PAGE_TITLES];
-      $main_app_bar_info = {
-        title: TITLE,
-        className: CLASS
-      };
-    } else if ($page.error) {
-      $main_app_bar_info = {
-        title: undefined,
-        className: undefined
-      };
-    }
-  });
+  let route_id = $derived($page.route.id as keyof typeof PAGE_TITLES);
+
   let app_bar_popover_status = $state(false);
 </script>
 
@@ -36,8 +22,10 @@
     {/if}
     {#if headline}
       {@render headline()}
-    {:else}
-      <span class={$main_app_bar_info.className ?? ''}>{$main_app_bar_info.title ?? ''}</span>
+    {:else if route_id in PAGE_TITLES}
+      <span class={PAGE_TITLES[route_id as keyof typeof PAGE_TITLES][1]}>
+        {PAGE_TITLES[route_id as keyof typeof PAGE_TITLES][0]}
+      </span>
     {/if}
   {/snippet}
   {#snippet trail()}
