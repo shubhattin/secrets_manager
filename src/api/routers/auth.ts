@@ -9,6 +9,8 @@ import { eq } from 'drizzle-orm';
 import { delay } from '~/tools/delay';
 import { bcryptVerify, bcrypt } from 'hash-wasm';
 
+const BCRYPT_WORK_FACTOR = 12;
+
 export const user_info_schema = UsersSchemaZod.pick({
   id: true,
   name: true,
@@ -155,7 +157,7 @@ const update_password_router = protectedProcedure
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const hashed_password = await bcrypt({
       password: new_password,
-      costFactor: 11,
+      costFactor: BCRYPT_WORK_FACTOR,
       outputType: 'encoded',
       salt: salt
     });
