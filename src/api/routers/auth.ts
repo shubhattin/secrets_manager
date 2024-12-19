@@ -2,12 +2,12 @@ import { protectedProcedure, publicProcedure, t } from '~/api/trpc_init';
 import { z } from 'zod';
 import { JWT_SECRET } from '~/tools/jwt.server';
 import { jwtVerify, SignJWT } from 'jose';
-import { puShTi, gen_salt, hash_256 } from '~/tools/hash_tools';
 import { UsersSchemaZod } from '~/db/schema_zod';
 import { db } from '~/db/db';
 import { users } from '~/db/schema';
 import { eq } from 'drizzle-orm';
 import { delay } from '~/tools/delay';
+import { bcryptVerify, bcrypt } from 'hash-wasm';
 
 export const user_info_schema = UsersSchemaZod.pick({
   id: true,
@@ -75,7 +75,10 @@ const verify_pass_router = publicProcedure
     });
     if (!user_info) return { verified, err_code: 'user_not_found' };
 
-    verified = await puShTi(password, user_info.password_hash);
+    verified = await bcryptVerify({
+      password: password,
+      hash: user_info.password_hash
+    });
     if (!verified) return { verified, err_code: 'wrong_password' };
     const { id_token, access_token } = await get_id_and_aceess_token({
       username: user_info.username,
@@ -144,10 +147,18 @@ const update_password_router = protectedProcedure
       where: ({ id }, { eq }) => eq(id, user.id)
     }))!;
     await delay(500);
-    const verified = await puShTi(current_password, user_info.password_hash);
+    const verified = await bcryptVerify({
+      password: current_password,
+      hash: user_info.password_hash
+    });
     if (!verified) return { success: false };
-    const slt = gen_salt();
-    const hashed_password = (await hash_256(new_password + slt)) + slt;
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const hashed_password = await bcrypt({
+      password: new_password,
+      costFactor: 11,
+      outputType: 'encoded',
+      salt: salt
+    });
     await db.update(users).set({ password_hash: hashed_password }).where(eq(users.id, user.id));
     return { success: true };
   });
