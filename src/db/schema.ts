@@ -5,7 +5,7 @@ export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
   username: varchar('username', { length: 25 }).notNull().unique(),
-  password_hash: varchar('password_hash', { length: 96 }).notNull()
+  password_hash: varchar('password_hash', { length: 96 }).notNull()  // bcrypt hash
 });
 
 export const categories = pgTable('categories', {
