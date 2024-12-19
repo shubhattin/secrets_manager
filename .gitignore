@@ -10,6 +10,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 .vercel
+.netlify
 
 src/db/scripts/out/
 
