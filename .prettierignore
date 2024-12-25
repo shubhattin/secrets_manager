@@ -1,6 +1,7 @@
 node_modules
 build
 .netlify
+.vercel
 .svelte-kit
 
 # Ignore files for PNPM, NPM and YARN
