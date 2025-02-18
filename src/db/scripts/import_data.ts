@@ -7,12 +7,14 @@ const main = async () => {
 
   console.log(`Fetching Data from ${dbMode} Database...`);
 
-  const users = await db.query.users.findMany();
+  const user = await db.query.user.findMany();
+  const account = await db.query.account.findMany();
   const categories = await db.query.categories.findMany();
   const items = await db.query.items.findMany();
 
   const json_data = {
-    users,
+    user,
+    account,
     categories,
     items
   };

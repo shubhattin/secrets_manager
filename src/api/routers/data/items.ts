@@ -6,7 +6,7 @@ import { items } from '~/db/schema';
 import { ItemsSchemaZod } from '~/db/schema_zod';
 import { delay } from '~/tools/delay';
 
-async function verify_category_user(user_id: number, category_id: number) {
+async function verify_category_user(user_id: string, category_id: number) {
   // verifying if the current category belongs to the actaul user
   const category_user = await db.query.categories.findFirst({
     columns: {

@@ -2,21 +2,22 @@
   import { Popover, Modal } from '@skeletonlabs/skeleton-svelte';
   import Icon from '~/tools/Icon.svelte';
   import { BiLogOut } from 'svelte-icons-pack/bi';
-  import { deleteAuthCookies } from '~/tools/auth_tools';
-  import { user_info } from '~/state/user.svelte';
   import { VscAccount } from 'svelte-icons-pack/vsc';
   import { AiOutlineUser } from 'svelte-icons-pack/ai';
   import { selected_category_id, text_editing_status } from '../state.svelte';
+  import { authClient } from '$lib/auth-client';
 
   let user_info_popover_status = $state(false);
   let logout_modal_status = $state(false);
-  const log_out = () => {
-    deleteAuthCookies();
+
+  const log_out = async () => {
     logout_modal_status = false;
-    $user_info = null;
+    await authClient.signOut();
     $text_editing_status = false;
     $selected_category_id = null;
   };
+
+  const session = authClient.useSession();
 </script>
 
 <Popover
@@ -32,8 +33,10 @@
     <div class="select-none space-y-2 p-1">
       <div class="text-center text-base font-bold">
         <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
-        {$user_info!.name}
-        <span class="text-sm text-gray-500 dark:text-gray-400">({$user_info!.username})</span>
+        {$session.data!.user.name}
+        <span class="text-sm text-gray-500 dark:text-gray-400"
+          >({$session.data!.user.username ?? ''})</span
+        >
       </div>
       <div class="select-none space-y-2 p-1">
         <Modal

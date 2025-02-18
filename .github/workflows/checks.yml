@@ -6,6 +6,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_BETTER_AUTH_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js

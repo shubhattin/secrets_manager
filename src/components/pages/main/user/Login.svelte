@@ -1,46 +1,35 @@
 <script lang="ts">
-  import { client_q } from '~/api/client';
   import Spinner from '~/components/Spinner.svelte';
-  import { user_info } from '~/state/user.svelte';
   import { cl_join } from '~/tools/cl_join';
-  import { get_id_token_info, storeAuthInfo } from '~/tools/auth_tools';
-  import { slide } from 'svelte/transition';
+  import { scale, slide } from 'svelte/transition';
+  import { authClient } from '$lib/auth-client';
+  import { delay } from '~/tools/delay';
+  import { createMutation } from '@tanstack/svelte-query';
 
   let username = $state(''); // 1st user(admin)
   let password = $state('');
-  let pass_input_element = $state<HTMLInputElement>();
-  let user_input_element = $state<HTMLInputElement>();
 
-  let wrong_pass_status = $state(false);
-  let user_not_found_status = $state(false);
+  let wrong_pass_or_user_status = $state(false);
 
-  const pass_verify = client_q.auth.verify_pass.mutation({
-    onSuccess(data) {
-      if (!data.verified) {
-        const err_code = data.err_code;
-        wrong_pass_status = false;
-        user_not_found_status = false;
-        if (err_code === 'user_not_found') {
-          username = '';
-          password = '';
-          user_not_found_status = true;
-          user_input_element && user_input_element.focus();
-        } else if (err_code === 'wrong_password') {
-          password = '';
-          pass_input_element && pass_input_element.focus();
-          wrong_pass_status = true;
+  const pass_verify = createMutation({
+    mutationFn: async () => {
+      await delay(550);
+      const { data, error } = await authClient.signIn.username({ username, password });
+      if (error) {
+        const err_code = error.code;
+        wrong_pass_or_user_status = false;
+        if (err_code === 'INVALID_USERNAME_OR_PASSWORD') {
+          wrong_pass_or_user_status = true;
         }
-      } else {
-        storeAuthInfo(data);
-        $user_info = get_id_token_info().user;
       }
+      return data;
     }
   });
 
   const check_pass_func = async (e: Event) => {
     e.preventDefault();
-    if (password === '') return;
-    $pass_verify.mutate({ username, password });
+    if (password === '' || username.length < 2) return;
+    await $pass_verify.mutateAsync();
   };
 </script>
 
@@ -48,20 +37,24 @@
   <form onsubmit={check_pass_func} class="mt-2 w-full space-y-2.5 sm:w-4/5 md:w-3/5">
     <input
       type="text"
-      bind:this={user_input_element}
       bind:value={username}
       placeholder="Username"
-      class={cl_join('input rounded-md px-2 py-1', user_not_found_status && 'preset-tonal-warning')}
+      class={cl_join('input rounded-md px-2 py-1')}
     />
     <input
-      class={cl_join('input rounded-md px-2 py-1', wrong_pass_status && 'preset-tonal-error')}
+      class={cl_join(
+        'input rounded-md px-2 py-1',
+        wrong_pass_or_user_status && 'preset-tonal-error'
+      )}
       type="password"
-      bind:this={pass_input_element}
       bind:value={password}
       placeholder="Password"
       minlength={6}
       required
     />
+    {#if wrong_pass_or_user_status}
+      <div in:scale class="text-sm text-error-500">Invalid Username or Password</div>
+    {/if}
     <button type="submit" class="btn gap-0 rounded-lg bg-primary-800 py-1 pl-0 pr-4 font-semibold">
       <Spinner show={$pass_verify.isPending} />
       <span class="text-white">Submit</span>

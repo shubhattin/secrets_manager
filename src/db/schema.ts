@@ -1,18 +1,13 @@
-import { pgTable, serial, varchar, integer, text } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, text } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 50 }).notNull(),
-  username: varchar('username', { length: 25 }).notNull().unique(),
-  password_hash: varchar('password_hash', { length: 96 }).notNull()  // bcrypt hash
-});
+import { user } from './auth-schema';
+export * from './auth-schema';
 
 export const categories = pgTable('categories', {
   id: serial('id').primaryKey(),
-  user_id: integer('user_id')
+  user_id: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => user.id, { onDelete: 'cascade' }),
   description: text('description').notNull()
 });
 
@@ -27,12 +22,12 @@ export const items = pgTable('items', {
 
 // relations
 
-export const userRelation = relations(users, ({ many }) => ({
+export const userRelation = relations(user, ({ many }) => ({
   categories: many(categories)
 }));
 
 export const categoryRelation = relations(categories, ({ one, many }) => ({
-  user: one(users, { fields: [categories.user_id], references: [users.id] }),
+  user: one(user, { fields: [categories.user_id], references: [user.id] }),
   items: many(items)
 }));
 

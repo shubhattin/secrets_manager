@@ -1,8 +1,13 @@
 import { dbClient_ext as db, queryClient } from './client';
 import { readFile } from 'fs/promises';
 import { dbMode, take_input } from '~/tools/kry_server';
-import { categories, items, users } from '~/db/schema';
-import { CategoriesSchemaZod, ItemsSchemaZod, UsersSchemaZod } from '~/db/schema_zod';
+import { categories, items, user, account } from '~/db/schema';
+import {
+  CategoriesSchemaZod,
+  ItemsSchemaZod,
+  UserSchemaZod,
+  AccountSchemaZod
+} from '~/db/schema_zod';
 import { z } from 'zod';
 import { sql } from 'drizzle-orm';
 
@@ -24,7 +29,8 @@ const main = async () => {
 
   const data = z
     .object({
-      users: UsersSchemaZod.array(),
+      user: UserSchemaZod.array(),
+      account: AccountSchemaZod.array(),
       categories: CategoriesSchemaZod.array(),
       items: ItemsSchemaZod.array()
     })
@@ -32,10 +38,17 @@ const main = async () => {
 
   // insertig users
   try {
-    await db.delete(users);
-    await db.insert(users).values(data.users);
-    // resetting the SERIAL
-    await db.execute(sql`SELECT setval('users_id_seq', (select MAX(id) from users))`);
+    await db.delete(user);
+    await db.insert(user).values(data.user);
+    console.log('Successfully added values into table `users`');
+  } catch {
+    console.log('Failed to add values into table `users`');
+  }
+
+  // insertig account
+  try {
+    await db.delete(account);
+    await db.insert(account).values(data.account);
     console.log('Successfully added values into table `users`');
   } catch {
     console.log('Failed to add values into table `users`');
