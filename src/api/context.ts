@@ -3,7 +3,9 @@ import type { inferAsyncReturnType } from '@trpc/server';
 import { auth } from '$lib/auth';
 
 export async function createContext(event: RequestEvent) {
-  const { headers } = event;
+  const {
+    request: { headers }
+  } = event;
 
   const session = await auth.api.getSession({
     headers: headers

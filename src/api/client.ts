@@ -3,7 +3,6 @@ import { httpBatchLink } from '@trpc/client';
 import { createTRPCClient } from 'trpc-sveltekit';
 import transformer from './transformer';
 import { createTRPCSvelte } from 'trpc-svelte-query';
-import { ensure_auth_access_status } from '~/tools/auth_tools';
 
 let access_token: string;
 let token_renew_started = false;
@@ -21,7 +20,6 @@ const client_options = {
     httpBatchLink({
       url: '/trpc',
       async headers() {
-        if (!token_renew_started) await ensure_auth_access_status();
         return {
           Authorization: `Bearer ${access_token}`
         };
