@@ -16,7 +16,7 @@ const config = {
             regions: ['sin1']
           })
         : adapter_netlify({
-            // edge: true
+            edge: true
           }),
     alias: {
       '~': 'src'

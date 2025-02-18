@@ -5,6 +5,11 @@ import { createContext } from '~/api/context';
 import { auth } from '$lib/auth'; // path to your auth file
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
+import { Buffer } from 'buffer';
+
+if (typeof globalThis.Buffer === 'undefined') {
+  globalThis.Buffer = Buffer;
+}
 // Now that we are using id token verification we can no longer preredner any page
 // so we can load trpc normally as we would usually do
 
