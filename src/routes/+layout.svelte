@@ -4,12 +4,11 @@
   import { queryClient } from '~/state/queryClient';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
   import TopAppBar from '~/components/TopAppBar.svelte';
-  import type { LayoutData } from './$types';
   import { type Snippet } from 'svelte';
   import '@fontsource/roboto/latin.css';
   import '../app.pcss';
 
-  let { children }: { data: LayoutData; children: Snippet } = $props();
+  let { children }: { children: Snippet } = $props();
 </script>
 
 <QueryClientProvider client={queryClient}>

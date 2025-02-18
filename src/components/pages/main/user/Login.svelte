@@ -28,7 +28,7 @@
 
   const check_pass_func = async (e: Event) => {
     e.preventDefault();
-    if (password === '' || username.length < 5) return;
+    if (password === '' || username.length < 2) return;
     await $pass_verify.mutateAsync();
   };
 </script>
