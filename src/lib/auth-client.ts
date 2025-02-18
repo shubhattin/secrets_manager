@@ -3,6 +3,6 @@ import { PUBLIC_BETTER_AUTH_URL } from '$env/static/public';
 import { usernameClient } from 'better-auth/client/plugins';
 
 export const authClient = createAuthClient({
-  baseURL: PUBLIC_BETTER_AUTH_URL ?? 'http://localhost:5173',
+  baseURL: PUBLIC_BETTER_AUTH_URL ?? import.meta.env.VITE_SITE_URL ?? 'http://localhost:5173',
   plugins: [usernameClient()]
 });
