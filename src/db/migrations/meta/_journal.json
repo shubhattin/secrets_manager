@@ -15,6 +15,13 @@
       "when": 1729068809830,
       "tag": "0001_wild_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1739885212535,
+      "tag": "0002_huge_sauron",
+      "breakpoints": true
     }
   ]
 }
