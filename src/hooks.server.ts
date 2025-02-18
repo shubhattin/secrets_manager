@@ -7,6 +7,8 @@ import { user_info_schema } from '~/api/routers/auth';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import { router } from '~/api/trpc_router';
 import { createContext } from '~/api/context';
+import { auth } from '$lib/auth'; // path to your auth file
+import { svelteKitHandler } from 'better-auth/svelte-kit';
 
 // Now that we are using id token verification we can no longer preredner any page
 // so we can load trpc normally as we would usually do
@@ -32,5 +34,6 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith('/trpc')) {
     return handle_trpc({ event, resolve });
   }
-  return resolve(event);
+  // return resolve(event);
+  return svelteKitHandler({ event, resolve, auth });
 };
