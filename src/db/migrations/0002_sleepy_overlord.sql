@@ -34,7 +34,9 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
-	CONSTRAINT "user_email_unique" UNIQUE("email")
+	"username" text,
+	CONSTRAINT "user_email_unique" UNIQUE("email"),
+	CONSTRAINT "user_username_unique" UNIQUE("username")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "verification" (
@@ -45,6 +47,16 @@ CREATE TABLE IF NOT EXISTS "verification" (
 	"created_at" timestamp,
 	"updated_at" timestamp
 );
+--> statement-breakpoint
+DROP TABLE "users";--> statement-breakpoint
+ALTER TABLE "categories" DROP CONSTRAINT "categories_user_id_users_id_fk";
+--> statement-breakpoint
+ALTER TABLE "categories" ALTER COLUMN "user_id" SET DATA TYPE text;--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "categories" ADD CONSTRAINT "categories_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;

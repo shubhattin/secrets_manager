@@ -19,15 +19,8 @@
     {
       "idx": 2,
       "version": "5",
-      "when": 1739885212535,
-      "tag": "0002_huge_sauron",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1739886719391,
-      "tag": "0003_fat_marvel_apes",
+      "when": 1739897047533,
+      "tag": "0002_sleepy_overlord",
       "breakpoints": true
     }
   ]
