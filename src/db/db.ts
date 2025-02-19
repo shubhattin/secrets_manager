@@ -3,8 +3,7 @@ import * as schema from './schema';
 import { drizzle as drizzle_neon } from 'drizzle-orm/neon-http';
 import { neon } from '@neondatabase/serverless';
 import { get_db_url } from './db_utils';
-// import { Redis } from '@upstash/redis';
-import Redis from 'ioredis';
+import { Redis } from '@upstash/redis';
 
 const DB_URL = get_db_url(env);
 
@@ -19,16 +18,7 @@ export const db = import.meta.env.DEV
   ? await get_drizzle_instance_dev()
   : drizzle_neon(neon(DB_URL), { schema });
 
-// const get_redis_instance_dev = async () => {
-//   const Redis = (await import('ioredis')).default;
-//   return new Redis(env.REDIS_DB_URL);
-// };
-
-// export const redis = import.meta.env.DEV
-//   ? await get_redis_instance_dev()
-//   : new Redis({
-//       url: env.REDIS_URL,
-//       token: env.REDIS_TOKEN
-//     });
-
-export const redis = new Redis(env.REDIS_DB_URL);
+export const redis = new Redis({
+  url: env.UPSTASH_REDIS_URL,
+  token: env.UPSTASH_REDIS_TOKEN
+});
