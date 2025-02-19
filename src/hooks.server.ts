@@ -20,8 +20,3 @@ import { Buffer } from 'buffer';
 if (typeof globalThis.Buffer === 'undefined') {
   globalThis.Buffer = Buffer;
 }
-
-// process pollyfill for netlify (upstash)
-if (import.meta.env.PROD) {
-  (globalThis as any).process = { env: {} }; // Minimal polyfill
-}

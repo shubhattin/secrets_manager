@@ -19,6 +19,6 @@ export const db = import.meta.env.DEV
   : drizzle_neon(neon(DB_URL), { schema });
 
 export const redis = new Redis({
-  url: env.UPSTASH_REDIS_URL,
-  token: env.UPSTASH_REDIS_TOKEN
+  url: env.UPSTASH_REDIS_REST_URL,
+  token: env.UPSTASH_REDIS_REST_TOKEN
 });
