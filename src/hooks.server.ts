@@ -4,11 +4,7 @@ import { router } from '~/api/trpc_router';
 import { createContext } from '~/api/context';
 import { auth } from '$lib/auth'; // path to your auth file
 import { svelteKitHandler } from 'better-auth/svelte-kit';
-
-// process pollyfill for netlify (upstash)
-if (typeof globalThis.process === 'undefined') {
-  (globalThis as any).process = { env: {} }; // Minimal polyfill
-}
+import { env } from '$env/dynamic/private';
 
 export const handle_trpc: Handle = createTRPCHandle({ router, createContext });
 
@@ -24,4 +20,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 import { Buffer } from 'buffer';
 if (typeof globalThis.Buffer === 'undefined') {
   globalThis.Buffer = Buffer;
+}
+
+// process pollyfill for netlify (upstash)
+if (typeof globalThis.process === 'undefined') {
+  (globalThis as any).process = { env: env }; // Minimal polyfill
 }
