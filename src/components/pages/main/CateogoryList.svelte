@@ -7,6 +7,8 @@
   import { client_q } from '~/api/client';
   import { useQueryClient } from '@tanstack/svelte-query';
   import { AiOutlinePlus } from 'svelte-icons-pack/ai';
+  import { LuRefreshCw } from 'svelte-icons-pack/lu';
+  import clsx from 'clsx';
 
   const query_client = useQueryClient();
 
@@ -23,21 +25,34 @@
       query_client.setQueryData(CATEGORY_QUERY_KEY, [new_data, ...old_data]);
     }
   });
+
+  const refresh = async () => {
+    await $categories_q.refetch();
+  };
 </script>
 
-<button
-  disabled={add_section_opened || !(!$categories_q.isFetching && $categories_q.isSuccess)}
-  onclick={() => {
-    add_section_opened = true;
-    setTimeout(() => {
-      new_category_description_element && new_category_description_element.focus();
-    }, 400 + 50);
-  }}
-  class="btn gap-1 space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
->
-  <Icon src={VscAdd} class="text-2xl" />
-  <span>Add New Cateogory</span>
-</button>
+<div class="flex space-x-2.5 sm:space-x-4">
+  <button
+    disabled={add_section_opened || !(!$categories_q.isFetching && $categories_q.isSuccess)}
+    onclick={() => {
+      add_section_opened = true;
+      setTimeout(() => {
+        new_category_description_element && new_category_description_element.focus();
+      }, 400 + 50);
+    }}
+    class="btn gap-1 space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
+  >
+    <Icon src={VscAdd} class="text-2xl" />
+    <span>Add New Cateogory</span>
+  </button>
+  <button
+    onclick={refresh}
+    class={clsx(
+      'select-none outline-none',
+      $categories_q.isFetched && $categories_q.isFetching && 'disabled animate-spin'
+    )}><Icon src={LuRefreshCw} class="text-2xl" /></button
+  >
+</div>
 {#if add_section_opened}
   {@render add_new_section()}
 {/if}

@@ -1,10 +1,12 @@
 <script lang="ts">
-  import Spinner from '~/components/Spinner.svelte';
   import { cl_join } from '~/tools/cl_join';
   import { scale, slide } from 'svelte/transition';
   import { authClient } from '$lib/auth-client';
   import { delay } from '~/tools/delay';
   import { createMutation } from '@tanstack/svelte-query';
+  import { AiOutlineGithub, AiOutlineGoogle } from 'svelte-icons-pack/ai';
+  import Icon from '~/tools/Icon.svelte';
+  import { GoogleIcon } from '~/components/icons';
 
   let username = $state(''); // 1st user(admin)
   let password = $state('');
@@ -33,17 +35,20 @@
   };
 </script>
 
-<div class="flex justify-center" in:slide>
-  <form onsubmit={check_pass_func} class="mt-2 w-full space-y-2.5 sm:w-4/5 md:w-3/5">
+<div class="flex flex-col items-center justify-center" in:slide>
+  <form
+    onsubmit={check_pass_func}
+    class="mb-4 mt-8 flex flex-col items-center justify-center space-y-2.5"
+  >
     <input
       type="text"
       bind:value={username}
       placeholder="Username"
-      class={cl_join('input rounded-md px-2 py-1')}
+      class={cl_join('input block rounded-md px-2 py-1')}
     />
     <input
       class={cl_join(
-        'input rounded-md px-2 py-1',
+        'input block rounded-md px-2 py-1',
         wrong_pass_or_user_status && 'preset-tonal-error'
       )}
       type="password"
@@ -55,9 +60,34 @@
     {#if wrong_pass_or_user_status}
       <div in:scale class="text-sm text-error-500">Invalid Username or Password</div>
     {/if}
-    <button type="submit" class="btn gap-0 rounded-lg bg-primary-800 py-1 pl-0 pr-4 font-semibold">
-      <Spinner show={$pass_verify.isPending} />
-      <span class="text-white">Submit</span>
+    <button
+      type="submit"
+      disabled={$pass_verify.isPending}
+      class="btn gap-0 rounded-md bg-primary-700 px-2 py-0"
+    >
+      <span class="text-white">Login</span>
     </button>
   </form>
+  <div class="space-y-2">
+    <button
+      onclick={async () => {
+        const data = await authClient.signIn.social({
+          provider: 'github',
+          callbackURL: '/'
+        });
+      }}
+      class="btn flex gap-2 rounded-lg font-semibold preset-outlined-tertiary-700-300"
+      ><Icon src={AiOutlineGithub} class="inline-block text-2xl" />Login with Github</button
+    >
+    <button
+      onclick={async () => {
+        const data = await authClient.signIn.social({
+          provider: 'google',
+          callbackURL: '/'
+        });
+      }}
+      class="btn flex gap-2 rounded-lg font-semibold preset-outlined-secondary-700-300"
+      ><Icon src={GoogleIcon} class="inline-block text-[1.25rem]" />Login with Google</button
+    >
+  </div>
 </div>

@@ -6,7 +6,9 @@
   import { AiOutlineUser } from 'svelte-icons-pack/ai';
   import { selected_category_id, text_editing_status } from '../state.svelte';
   import { authClient } from '$lib/auth-client';
+  import { useQueryClient } from '@tanstack/svelte-query';
 
+  const query_client = useQueryClient();
   let user_info_popover_status = $state(false);
   let logout_modal_status = $state(false);
 
@@ -15,6 +17,9 @@
     await authClient.signOut();
     $text_editing_status = false;
     $selected_category_id = null;
+    query_client.invalidateQueries({
+      queryKey: ['categories']
+    });
   };
 
   const session = authClient.useSession();
@@ -34,9 +39,11 @@
       <div class="text-center text-base font-bold">
         <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
         {$session.data!.user.name}
-        <span class="text-sm text-gray-500 dark:text-gray-400"
-          >({$session.data!.user.username ?? ''})</span
-        >
+        {#if $session.data!.user.username}
+          <span class="text-sm text-gray-500 dark:text-gray-400"
+            >({$session.data!.user.username})</span
+          >
+        {/if}
       </div>
       <div class="select-none space-y-2 p-1">
         <Modal
