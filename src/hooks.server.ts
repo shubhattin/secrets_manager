@@ -20,7 +20,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 // buffer pollyfill for netlify
 import { Buffer } from 'buffer';
-
 if (typeof globalThis.Buffer === 'undefined') {
   globalThis.Buffer = Buffer;
+}
+
+// process pollyfill for netlify (upstash)
+if (typeof globalThis.process === 'undefined') {
+  (globalThis as any).process = { env: {} }; // Minimal polyfill
 }
