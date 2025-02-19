@@ -17,8 +17,8 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@skeletonlabs/skeleton": "3.0.0-next.9",
-    "@skeletonlabs/skeleton-svelte": "1.0.0-next.15",
+    "@skeletonlabs/skeleton": "3.0.0-next.10",
+    "@skeletonlabs/skeleton-svelte": "1.0.0-next.19",
     "@sveltejs/adapter-netlify": "^4.4.0",
     "@sveltejs/adapter-vercel": "^5.5.2",
     "@sveltejs/kit": "^2.9.0",

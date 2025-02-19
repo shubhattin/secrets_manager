@@ -15,7 +15,7 @@ export const auth = betterAuth({
   },
   plugins: [
     username({
-      minUsernameLength: 2,
+      minUsernameLength: 4,
       maxUsernameLength: 20
     })
   ],

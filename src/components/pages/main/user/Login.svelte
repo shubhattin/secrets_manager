@@ -38,7 +38,7 @@
 <div class="flex flex-col items-center justify-center" in:slide>
   <form
     onsubmit={check_pass_func}
-    class="mb-4 mt-8 flex flex-col items-center justify-center space-y-2.5"
+    class="mb-4 mt-8 flex w-4/5 flex-col items-center justify-center space-y-2.5 sm:w-3/5 md:w-2/5"
   >
     <input
       type="text"
@@ -68,7 +68,7 @@
       <span class="text-white">Login</span>
     </button>
   </form>
-  <div class="space-y-2">
+  <div class="grid grid-cols-1 items-center justify-center gap-y-2 sm:grid-cols-2 sm:gap-x-2">
     <button
       onclick={async () => {
         const data = await authClient.signIn.social({
