@@ -6,9 +6,7 @@ import type { user_info_schema } from '~/api/routers/auth';
 declare global {
   namespace App {
     // interface Error {}
-    interface Locals {
-      user?: z.infer<typeof user_info_schema>;
-    }
+    // interface Locals {}
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
