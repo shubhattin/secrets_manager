@@ -5,8 +5,10 @@ import { createContext } from '~/api/context';
 import { auth } from '$lib/auth'; // path to your auth file
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
-// Now that we are using id token verification we can no longer preredner any page
-// so we can load trpc normally as we would usually do
+// process pollyfill for netlify (upstash)
+if (typeof globalThis.process === 'undefined') {
+  (globalThis as any).process = { env: {} }; // Minimal polyfill
+}
 
 export const handle_trpc: Handle = createTRPCHandle({ router, createContext });
 
@@ -22,9 +24,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 import { Buffer } from 'buffer';
 if (typeof globalThis.Buffer === 'undefined') {
   globalThis.Buffer = Buffer;
-}
-
-// process pollyfill for netlify (upstash)
-if (typeof globalThis.process === 'undefined') {
-  (globalThis as any).process = { env: {} }; // Minimal polyfill
 }
