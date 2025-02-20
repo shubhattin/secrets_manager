@@ -4,6 +4,7 @@ import { db, redis } from '../db/db';
 import * as schema from '../db/schema';
 import { env } from '$env/dynamic/private';
 import { username } from 'better-auth/plugins';
+import ms from 'ms';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -19,6 +20,12 @@ export const auth = betterAuth({
       maxUsernameLength: 20
     })
   ],
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: ms('5mins') / 1000
+    }
+  },
   secondaryStorage: {
     get: async (key) => {
       const value = (await redis.get(key)) as null | any;
