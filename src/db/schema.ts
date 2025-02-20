@@ -1,6 +1,6 @@
 import { pgTable, serial, integer, text } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { user } from './auth-schema';
+import { account, session, user } from './auth-schema';
 export * from './auth-schema';
 
 export const categories = pgTable('categories', {
@@ -23,7 +23,17 @@ export const items = pgTable('items', {
 // relations
 
 export const userRelation = relations(user, ({ many }) => ({
-  categories: many(categories)
+  categories: many(categories),
+  accounts: many(account),
+  sessions: many(session)
+}));
+
+export const accountRelation = relations(account, ({ one, many }) => ({
+  user: one(user, { fields: [account.userId], references: [user.id] })
+}));
+
+export const sessionRelation = relations(session, ({ one, many }) => ({
+  user: one(user, { fields: [session.userId], references: [user.id] })
 }));
 
 export const categoryRelation = relations(categories, ({ one, many }) => ({
