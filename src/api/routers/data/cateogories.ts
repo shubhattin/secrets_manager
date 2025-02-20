@@ -43,7 +43,9 @@ const delete_category_route = protectedProcedure
       db
         .delete(categories)
         .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id))),
-      redis.del(`user:${user.id}:categories`)
+      redis.del(`user:${user.id}:categories`),
+      redis.del(`category:${category_id}:user:${user.id}`),
+      redis.del(`category:${category_id}:items`)
     ]);
   });
 

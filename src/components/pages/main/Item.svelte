@@ -79,7 +79,7 @@
           </button>
           <ConfirmPopover
             description="Are you sure you want to delete this item ?"
-            placement="top"
+            placement="bottom"
             bind:popup_state={delete_popup_state}
             confirm_func={() => {
               $delete_item_mut.mutate({
@@ -118,7 +118,7 @@
           <span class="space-x-1">
             <ConfirmPopover
               description="Please Confirm"
-              placement="top"
+              placement="bottom"
               bind:popup_state={edit_popup_state}
               confirm_func={async () => {
                 $edit_item_mut.mutate({

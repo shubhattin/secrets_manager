@@ -140,7 +140,7 @@
         />
         <ConfirmPopover
           description="Are you sure you want to add a new item ?"
-          placement="top"
+          placement="bottom"
           bind:popup_state={add_new_item_popup_state}
           confirm_func={async () => {
             const description_encrypted = await encrypt_text(new_item_name, passkey);

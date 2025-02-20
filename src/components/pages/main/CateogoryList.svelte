@@ -47,9 +47,10 @@
   </button>
   <button
     onclick={refresh}
+    disabled={$categories_q.isFetched && $categories_q.isFetching}
     class={clsx(
       'select-none outline-none',
-      $categories_q.isFetched && $categories_q.isFetching && 'disabled animate-spin'
+      $categories_q.isFetched && $categories_q.isFetching && 'animate-spin'
     )}><Icon src={LuRefreshCw} class="text-2xl" /></button
   >
 </div>

@@ -4,17 +4,19 @@
     selected_category_id,
     categories_q,
     CATEGORY_QUERY_KEY,
-    text_editing_status
+    text_editing_status,
+    get_item_query_key
   } from './state.svelte';
   import Icon from '~/tools/Icon.svelte';
   import { TiArrowBackOutline } from 'svelte-icons-pack/ti';
   import { client_q } from '~/api/client';
-  import { useQueryClient } from '@tanstack/svelte-query';
+  import { useIsFetching, useQueryClient } from '@tanstack/svelte-query';
   import { BiSave } from 'svelte-icons-pack/bi';
-  import { RiSystemCloseLargeFill } from 'svelte-icons-pack/ri';
+  import { RiSystemCloseLargeFill, RiSystemRefreshLine } from 'svelte-icons-pack/ri';
   import { fade, scale, slide } from 'svelte/transition';
   import Items from './ItemList.svelte';
   import ConfirmPopover from '~/components/PopoverModals/ConfirmPopover.svelte';
+  import clsx from 'clsx';
 
   const query_client = useQueryClient();
 
@@ -57,6 +59,18 @@
   function go_back_to_list() {
     $selected_category_id = null;
   }
+
+  const refresh = async () => {
+    query_client.invalidateQueries({
+      queryKey: get_item_query_key($selected_category_id!),
+      exact: true
+    });
+  };
+
+  let is_fetching = useIsFetching({
+    queryKey: get_item_query_key($selected_category_id!),
+    exact: true
+  });
 </script>
 
 <div class="mb-4 flex space-x-7">
@@ -84,7 +98,7 @@
             });
             update_popup_status = false;
           }}
-          placement="left"
+          placement="bottom"
         >
           <button
             disabled={$update_category_mut.isPending}
@@ -128,7 +142,7 @@
           });
           delete_popup_status = false;
         }}
-        placement="left"
+        placement="bottom"
       >
         <button
           disabled={$delete_category_mut.isPending}
@@ -137,6 +151,13 @@
           <Icon src={AiOutlineDelete} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
         </button>
       </ConfirmPopover>
+      <button
+        disabled={!!$is_fetching}
+        class={clsx('btn rounded-md p-0', $is_fetching && 'animate-spin')}
+        onclick={refresh}
+      >
+        <Icon src={RiSystemRefreshLine} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
+      </button>
     </span>
   {/if}
 </div>
