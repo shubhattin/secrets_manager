@@ -1,10 +1,9 @@
-import { UPSTASH_REDIS_REST_TOKEN, UPSTASH_REDIS_REST_URL } from '$env/static/private';
 import { env } from '$env/dynamic/private';
 import * as schema from './schema';
 import { drizzle as drizzle_neon } from 'drizzle-orm/neon-http';
 import { neon } from '@neondatabase/serverless';
 import { get_db_url } from './db_utils';
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis/cloudflare';
 
 const DB_URL = get_db_url(env);
 
@@ -20,6 +19,6 @@ export const db = import.meta.env.DEV
   : drizzle_neon(neon(DB_URL), { schema });
 
 export const redis = new Redis({
-  url: UPSTASH_REDIS_REST_URL,
-  token: UPSTASH_REDIS_REST_TOKEN
+  url: env.UPSTASH_REDIS_REST_URL,
+  token: env.UPSTASH_REDIS_REST_TOKEN
 });
