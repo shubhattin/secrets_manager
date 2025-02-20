@@ -7,13 +7,14 @@ import { categories } from '~/db/schema';
 import { delay } from '~/tools/delay';
 
 const get_user_categories_route = protectedProcedure.query(async ({ ctx: { user } }) => {
-  await delay(300);
   const cache = await redis.get(`user:${user.id}:categories`);
   if (cache)
     return cache as {
       id: number;
       description: string;
     }[];
+
+  await delay(300);
   const data = await db.query.categories.findMany({
     columns: {
       id: true,

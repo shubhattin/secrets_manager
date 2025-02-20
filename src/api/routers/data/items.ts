@@ -32,13 +32,13 @@ const get_items_route = protectedProcedure
   )
   .output(ItemsSchemaZod.omit({ category_id: true }).array())
   .query(async ({ ctx: { user }, input: { category_id } }) => {
-    await delay(600);
-
     if (!(await verify_category_user(user.id, category_id))) return [];
 
     const cache = await redis.get(`category:${category_id}:items`);
     if (cache)
       return cache as { id: number; description_encrypted: string; text_encrypted: string }[];
+
+    await delay(600);
     const data = await db.query.items.findMany({
       columns: {
         id: true,
