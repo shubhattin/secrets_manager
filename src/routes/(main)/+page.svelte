@@ -2,11 +2,11 @@
   import MainApp from '~/components/pages/main/MainApp.svelte';
   import Login from '~/components/pages/main/user/Login.svelte';
   import UserControls from '~/components/pages/main/user/UserControls.svelte';
-  import { authClient } from '$lib/auth-client';
+  import { useSession } from '$lib/auth-client';
   import type { PageData } from './$types';
   import { browser } from '$app/environment';
 
-  const session = authClient.useSession();
+  const session = useSession();
 
   let { data }: { data: PageData } = $props();
 
@@ -15,7 +15,9 @@
   let user_info = $derived(user_info_fetched ? $session.data?.user : data.user_info);
 
   $effect(() => {
-    if (browser && $session.data?.user) user_info_fetched = true;
+    if (browser && $session.data?.user) {
+      user_info_fetched = true;
+    }
   });
 </script>
 

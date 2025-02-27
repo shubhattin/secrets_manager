@@ -16,7 +16,7 @@
   import { fade, scale, slide } from 'svelte/transition';
   import Items from './ItemList.svelte';
   import ConfirmPopover from '~/components/PopoverModals/ConfirmPopover.svelte';
-  import clsx from 'clsx';
+  import { cl_join } from '~/tools/cl_join';
 
   const query_client = useQueryClient();
 
@@ -153,7 +153,7 @@
       </ConfirmPopover>
       <button
         disabled={!!$is_fetching}
-        class={clsx('btn rounded-md p-0', $is_fetching && 'animate-spin')}
+        class={cl_join('btn rounded-md p-0', $is_fetching && 'animate-spin')}
         onclick={refresh}
       >
         <Icon src={RiSystemRefreshLine} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />

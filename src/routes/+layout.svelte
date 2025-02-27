@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { type Snippet } from 'svelte';
   import { ModeWatcher } from 'mode-watcher';
   import { QueryClientProvider } from '@tanstack/svelte-query';
   import { queryClient } from '~/state/queryClient';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
   import TopAppBar from '~/components/TopAppBar.svelte';
-  import { type Snippet } from 'svelte';
+  import CookieCacheRefresh from './CookieCacheRefresh.svelte';
   import '@fontsource/roboto/latin.css';
   import '../app.pcss';
 
@@ -20,4 +21,5 @@
     </div>
   </div>
   <SvelteQueryDevtools initialIsOpen={false} />
+  <CookieCacheRefresh />
 </QueryClientProvider>

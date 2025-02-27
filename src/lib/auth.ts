@@ -4,7 +4,7 @@ import { db, redis } from '../db/db';
 import * as schema from '../db/schema';
 import { env } from '$env/dynamic/private';
 import { username } from 'better-auth/plugins';
-import ms from 'ms';
+import { COOKIE_CACHE_TIME_MS } from './cache-time';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -23,7 +23,7 @@ export const auth = betterAuth({
   session: {
     cookieCache: {
       enabled: true,
-      maxAge: ms('4mins') / 1000
+      maxAge: COOKIE_CACHE_TIME_MS / 1000
     }
   },
   secondaryStorage: {

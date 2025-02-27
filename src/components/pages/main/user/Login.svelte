@@ -1,7 +1,7 @@
 <script lang="ts">
   import { cl_join } from '~/tools/cl_join';
   import { scale, slide } from 'svelte/transition';
-  import { authClient } from '$lib/auth-client';
+  import { signIn } from '$lib/auth-client';
   import { delay } from '~/tools/delay';
   import { createMutation } from '@tanstack/svelte-query';
   import { AiOutlineGithub, AiOutlineGoogle } from 'svelte-icons-pack/ai';
@@ -16,7 +16,7 @@
   const pass_verify = createMutation({
     mutationFn: async () => {
       await delay(550);
-      const { data, error } = await authClient.signIn.username({ username, password });
+      const { data, error } = await signIn.username({ username, password });
       if (error) {
         const err_code = error.code;
         wrong_pass_or_user_status = false;
@@ -71,7 +71,7 @@
   <div class="grid grid-cols-1 items-center justify-center gap-y-2 sm:grid-cols-2 sm:gap-x-2">
     <button
       onclick={async () => {
-        const data = await authClient.signIn.social({
+        const data = await signIn.social({
           provider: 'github',
           callbackURL: '/'
         });
@@ -81,7 +81,7 @@
     >
     <button
       onclick={async () => {
-        const data = await authClient.signIn.social({
+        const data = await signIn.social({
           provider: 'google',
           callbackURL: '/'
         });

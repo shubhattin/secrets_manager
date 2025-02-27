@@ -5,7 +5,7 @@
   import { VscAccount } from 'svelte-icons-pack/vsc';
   import { AiOutlineUser } from 'svelte-icons-pack/ai';
   import { selected_category_id, text_editing_status } from '../state.svelte';
-  import { authClient } from '$lib/auth-client';
+  import { signOut, useSession } from '$lib/auth-client';
   import { useQueryClient } from '@tanstack/svelte-query';
 
   const query_client = useQueryClient();
@@ -14,7 +14,7 @@
 
   const log_out = async () => {
     logout_modal_status = false;
-    await authClient.signOut();
+    await signOut();
     $text_editing_status = false;
     $selected_category_id = null;
     query_client.invalidateQueries({
@@ -22,7 +22,7 @@
     });
   };
 
-  const session = authClient.useSession();
+  const session = useSession();
 </script>
 
 <Popover

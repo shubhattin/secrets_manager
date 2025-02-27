@@ -8,7 +8,7 @@
   import { useQueryClient } from '@tanstack/svelte-query';
   import { AiOutlinePlus } from 'svelte-icons-pack/ai';
   import { LuRefreshCw } from 'svelte-icons-pack/lu';
-  import clsx from 'clsx';
+  import { cl_join } from '~/tools/cl_join';
 
   const query_client = useQueryClient();
 
@@ -48,7 +48,7 @@
   <button
     onclick={refresh}
     disabled={$categories_q.isFetched && $categories_q.isFetching}
-    class={clsx(
+    class={cl_join(
       'select-none outline-none',
       $categories_q.isFetched && $categories_q.isFetching && 'animate-spin'
     )}><Icon src={LuRefreshCw} class="text-2xl" /></button
