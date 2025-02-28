@@ -5,7 +5,7 @@
   import { queryClient } from '~/state/queryClient';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
   import TopAppBar from '~/components/TopAppBar.svelte';
-  import CookieCacheRefresh from './CookieCacheRefresh.svelte';
+  import CookieCacheRefresh from '../lib/CookieCacheRefresh.svelte';
   import '@fontsource/roboto/latin.css';
   import '../app.pcss';
 
