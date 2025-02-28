@@ -12,11 +12,9 @@
       CACHE_UPDATE_INTERVAL = setInterval(async () => {
         const data = await authClient.getSession();
       }, COOKIE_CACHE_TIME_MS);
-      console.log('Refreshing cookie cache');
     } else if (!$session.data?.user.id && CACHE_UPDATE_INTERVAL) {
       clearInterval(CACHE_UPDATE_INTERVAL);
       CACHE_UPDATE_INTERVAL = null;
-      console.log('Stopping cookie cache refresh');
     }
   });
 
