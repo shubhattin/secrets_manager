@@ -40,7 +40,7 @@
         new_category_description_element && new_category_description_element.focus();
       }, 400 + 50);
     }}
-    class="btn gap-1 space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
+    class="btn bg-secondary-700 dark:bg-secondary-700 gap-1 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
   >
     <Icon src={VscAdd} class="text-2xl" />
     <span>Add New Cateogory</span>
@@ -49,7 +49,7 @@
     onclick={refresh}
     disabled={$categories_q.isFetched && $categories_q.isFetching}
     class={cl_join(
-      'select-none outline-hidden',
+      'outline-hidden select-none',
       $categories_q.isFetched && $categories_q.isFetching && 'animate-spin'
     )}><Icon src={LuRefreshCw} class="text-2xl" /></button
   >
@@ -62,7 +62,7 @@
     {#each $categories_q.data as category (category.id)}
       <button
         onclick={() => ($selected_category_id = category.id)}
-        class="btn text-wrap rounded-md border border-amber-600 outline-hidden dark:border-yellow-400"
+        class="btn rounded-md border border-amber-600 text-wrap outline-hidden dark:border-yellow-400"
       >
         {category.description}
       </button>
@@ -99,14 +99,14 @@
     <button
       disabled={$add_new_cateogory_mut.isPending}
       type="submit"
-      class="btn space-x-1 rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
+      class="btn bg-primary-700 dark:bg-primary-700 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
     >
       <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
     </button>
     <button
       disabled={$add_new_cateogory_mut.isPending}
       onclick={() => (add_section_opened = false)}
-      class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
+      class="btn bg-error-600 dark:bg-error-500 rounded-md px-1 py-1 text-white"
     >
       <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
     </button>

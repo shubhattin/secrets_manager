@@ -35,7 +35,7 @@
     <Icon class="hover:text-gray-6200 text-3xl dark:hover:text-gray-400" src={VscAccount} />
   {/snippet}
   {#snippet content()}
-    <div class="select-none space-y-2 p-1">
+    <div class="space-y-2 p-1 select-none">
       <div class="text-center text-base font-bold">
         <Icon class="-mt-1 text-2xl" src={AiOutlineUser} />
         {$session.data!.user.name}
@@ -45,7 +45,7 @@
           >
         {/if}
       </div>
-      <div class="select-none space-y-2 p-1">
+      <div class="space-y-2 p-1 select-none">
         <Modal
           bind:open={logout_modal_status}
           contentBase="card z-50 space-y-2 rounded-lg px-3 py-2 shadow-xl bg-surface-100-900"
@@ -53,7 +53,7 @@
         >
           {#snippet trigger()}
             <span
-              class="btn m-0 gap-1 rounded-md bg-error-600 pb-1 pl-1 pr-2 pt-0 font-bold text-white"
+              class="btn bg-error-600 m-0 gap-1 rounded-md pt-0 pr-2 pb-1 pl-1 font-bold text-white"
             >
               <Icon class="text-2xl" src={BiLogOut} />
               <span>Logout</span>
@@ -63,14 +63,14 @@
             <div class="text-lg font-bold">Are you sure to logout ?</div>
             <div class="space-x-2">
               <button
-                class="btn rounded-lg font-semibold preset-filled-surface-300-700"
+                class="btn preset-filled-surface-300-700 rounded-lg font-semibold"
                 onclick={log_out}
               >
                 Confirm
               </button>
               <button
                 onclick={() => (logout_modal_status = false)}
-                class="btn rounded-lg font-semibold preset-outlined-surface-800-200"
+                class="btn preset-outlined-surface-800-200 rounded-lg font-semibold"
               >
                 Cancel
               </button>

@@ -102,7 +102,7 @@
         >
           <button
             disabled={$update_category_mut.isPending}
-            class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
+            class="btn bg-surface-600 dark:bg-surface-600 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
           >
             <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
           </button>
@@ -110,7 +110,7 @@
         <button
           onclick={() => (category_edit_status = false)}
           disabled={$update_category_mut.isPending}
-          class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
+          class="btn bg-error-600 dark:bg-error-500 rounded-md px-1 py-1 text-white"
         >
           <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
         </button>
@@ -128,9 +128,9 @@
           }, 400 + 50);
         }}
         disabled={$text_editing_status || $delete_category_mut.isPending}
-        class="btn rounded-md bg-warning-700 px-2 py-1"
+        class="btn bg-warning-700 rounded-md px-2 py-1"
       >
-        <Icon src={AiOutlineEdit} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
+        <Icon src={AiOutlineEdit} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
       </button>
       <ConfirmPopover
         bind:popup_state={delete_popup_status}
@@ -146,9 +146,9 @@
       >
         <button
           disabled={$delete_category_mut.isPending}
-          class="btn rounded-md bg-error-600 px-2 py-1"
+          class="btn bg-error-600 rounded-md px-2 py-1"
         >
-          <Icon src={AiOutlineDelete} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
+          <Icon src={AiOutlineDelete} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
         </button>
       </ConfirmPopover>
       <button
@@ -156,7 +156,7 @@
         class={cl_join('btn rounded-md p-0', $is_fetching && 'animate-spin')}
         onclick={refresh}
       >
-        <Icon src={RiSystemRefreshLine} class="-ml-1 -mr-1 -mt-1 text-2xl text-white" />
+        <Icon src={RiSystemRefreshLine} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
       </button>
     </span>
   {/if}
