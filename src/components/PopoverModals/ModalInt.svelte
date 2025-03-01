@@ -91,15 +91,15 @@
   transition:slide
   bind:this={modalElement}
   class={cl_join(
-    'duration-400 fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-all',
-    !opened && 'hidden bg-opacity-0'
+    'bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-400',
+    !opened && 'bg-opacity-0 hidden'
   )}
 >
   {#if opened && !is_closing}
     <div
       in:scale={{ duration: animationDuration }}
       out:slide={{ duration: animationDuration }}
-      class="mx-3 max-w-screen-lg"
+      class="mx-3 max-w-(--breakpoint-lg)"
     >
       <article class="rounded-lg bg-white p-3 pt-0 shadow-lg dark:bg-gray-800">
         <div class="flex justify-end">

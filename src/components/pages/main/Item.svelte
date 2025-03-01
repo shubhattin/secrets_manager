@@ -73,7 +73,7 @@
               updated_item_name = decrypted.description;
               updated_item_text = decrypted.text;
             }}
-            class="btn rounded-md px-1 py-1 outline-none"
+            class="btn rounded-md px-1 py-1 outline-hidden"
           >
             <Icon src={AiOutlineEdit} class="-mt-1 text-xl" />
           </button>
@@ -91,7 +91,7 @@
           >
             <button
               disabled={$delete_item_mut.isPending}
-              class="btn rounded-md px-2 py-0 outline-none"
+              class="btn rounded-md px-2 py-0 outline-hidden"
             >
               <Icon src={AiOutlineDelete} class="-mt-1 text-xl" />
             </button>
@@ -132,7 +132,7 @@
             >
               <button
                 disabled={$edit_item_mut.isPending}
-                class="btn m-0 rounded-md p-0 outline-none"
+                class="btn m-0 rounded-md p-0 outline-hidden"
               >
                 <Icon src={TiTick} class="-m-1 text-2xl" />
               </button>
@@ -140,7 +140,7 @@
             <button
               disabled={$edit_item_mut.isPending}
               onclick={() => (item_edit_status = false)}
-              class="btn m-0 rounded-md p-0 outline-none"
+              class="btn m-0 rounded-md p-0 outline-hidden"
             >
               <Icon src={AiOutlineClose} class="-m-1 text-xl" />
             </button>
