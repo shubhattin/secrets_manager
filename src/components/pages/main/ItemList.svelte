@@ -80,7 +80,7 @@
       <button
         type="submit"
         class={cl_join(
-          'btn rounded-md px-2 py-1 text-white outline-none',
+          'btn rounded-md px-2 py-1 text-white outline-hidden',
           !passkey_is_set ? 'bg-green-600' : 'bg-amber-600'
         )}
       >
@@ -120,7 +120,7 @@
         new_item_name_element && new_item_name_element.focus();
       }, 400 + 50);
     }}
-    class="btn gap-1 space-x-1 rounded-lg bg-tertiary-700 px-2 py-1 font-bold text-white outline-none dark:bg-tertiary-700"
+    class="btn gap-1 space-x-1 rounded-lg bg-tertiary-700 px-2 py-1 font-bold text-white outline-hidden dark:bg-tertiary-700"
   >
     <Icon src={VscAdd} class="text-2xl" />
     <span>Add New</span>

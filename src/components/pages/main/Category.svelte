@@ -75,7 +75,7 @@
 
 <div class="mb-4 flex space-x-7">
   <span class="space-x-2">
-    <button class="btn m-0 gap-0 p-0 outline-none" onclick={go_back_to_list}>
+    <button class="btn m-0 gap-0 p-0 outline-hidden" onclick={go_back_to_list}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
@@ -118,7 +118,7 @@
     {/if}
   </span>
   {#if !category_edit_status}
-    <span class="space-x-3 outline-none" in:fade>
+    <span class="space-x-3 outline-hidden" in:fade>
       <button
         onclick={() => {
           category_edit_status = true;

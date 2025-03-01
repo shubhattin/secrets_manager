@@ -49,7 +49,7 @@
     onclick={refresh}
     disabled={$categories_q.isFetched && $categories_q.isFetching}
     class={cl_join(
-      'select-none outline-none',
+      'select-none outline-hidden',
       $categories_q.isFetched && $categories_q.isFetching && 'animate-spin'
     )}><Icon src={LuRefreshCw} class="text-2xl" /></button
   >
@@ -62,7 +62,7 @@
     {#each $categories_q.data as category (category.id)}
       <button
         onclick={() => ($selected_category_id = category.id)}
-        class="btn text-wrap rounded-md border border-amber-600 outline-none dark:border-yellow-400"
+        class="btn text-wrap rounded-md border border-amber-600 outline-hidden dark:border-yellow-400"
       >
         {category.description}
       </button>
