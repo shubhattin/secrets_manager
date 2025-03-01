@@ -1,4 +1,7 @@
 <script lang="ts">
+  import '@fontsource/roboto/latin.css';
+  import '../app.css';
+  import '../app.scss';
   import { type Snippet } from 'svelte';
   import { ModeWatcher } from 'mode-watcher';
   import { QueryClientProvider } from '@tanstack/svelte-query';
@@ -6,8 +9,6 @@
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
   import TopAppBar from '~/components/TopAppBar.svelte';
   import CookieCacheRefresh from '../lib/CookieCacheRefresh.svelte';
-  import '@fontsource/roboto/latin.css';
-  import '../app.pcss';
 
   let { children }: { children: Snippet } = $props();
 </script>
