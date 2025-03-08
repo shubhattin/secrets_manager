@@ -94,7 +94,7 @@
       bind:this={new_category_description_element}
       bind:value={new_category_description}
       placeholder="Description"
-      class="input inline-block w-4/5 rounded-md"
+      class="input inline-block w-3/5 rounded-md sm:w-4/5"
     />
     <button
       disabled={$add_new_cateogory_mut.isPending}
