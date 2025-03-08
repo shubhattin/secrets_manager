@@ -53,7 +53,7 @@
         >
           {#snippet trigger()}
             <span
-              class="btn bg-error-600 m-0 gap-1 rounded-md pt-0 pr-2 pb-1 pl-1 font-bold text-white"
+              class="m-0 btn gap-1 rounded-md bg-error-600 pt-0 pr-2 pb-1 pl-1 font-bold text-white"
             >
               <Icon class="text-2xl" src={BiLogOut} />
               <span>Logout</span>
@@ -63,14 +63,14 @@
             <div class="text-lg font-bold">Are you sure to logout ?</div>
             <div class="space-x-2">
               <button
-                class="btn preset-filled-surface-300-700 rounded-lg font-semibold"
+                class="btn rounded-lg preset-filled-surface-300-700 font-semibold"
                 onclick={log_out}
               >
                 Confirm
               </button>
               <button
                 onclick={() => (logout_modal_status = false)}
-                class="btn preset-outlined-surface-800-200 rounded-lg font-semibold"
+                class="btn rounded-lg preset-outlined-surface-800-200 font-semibold"
               >
                 Cancel
               </button>

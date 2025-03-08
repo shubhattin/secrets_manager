@@ -132,7 +132,7 @@
             >
               <button
                 disabled={$edit_item_mut.isPending}
-                class="btn m-0 rounded-md p-0 outline-hidden"
+                class="m-0 btn rounded-md p-0 outline-hidden"
               >
                 <Icon src={TiTick} class="-m-1 text-2xl" />
               </button>
@@ -140,7 +140,7 @@
             <button
               disabled={$edit_item_mut.isPending}
               onclick={() => (item_edit_status = false)}
-              class="btn m-0 rounded-md p-0 outline-hidden"
+              class="m-0 btn rounded-md p-0 outline-hidden"
             >
               <Icon src={AiOutlineClose} class="-m-1 text-xl" />
             </button>

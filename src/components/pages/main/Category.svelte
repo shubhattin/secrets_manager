@@ -75,7 +75,7 @@
 
 <div class="mb-4 flex space-x-7">
   <span class="space-x-2">
-    <button class="btn m-0 gap-0 p-0 outline-hidden" onclick={go_back_to_list}>
+    <button class="m-0 btn gap-0 p-0 outline-hidden" onclick={go_back_to_list}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
@@ -102,7 +102,7 @@
         >
           <button
             disabled={$update_category_mut.isPending}
-            class="btn bg-surface-600 dark:bg-surface-600 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
+            class="btn space-x-1 rounded-lg bg-surface-600 px-2 py-1 font-bold text-white dark:bg-surface-600"
           >
             <Icon src={BiSave} class="-m-1 -mt-1.5 text-2xl" />
           </button>
@@ -110,7 +110,7 @@
         <button
           onclick={() => (category_edit_status = false)}
           disabled={$update_category_mut.isPending}
-          class="btn bg-error-600 dark:bg-error-500 rounded-md px-1 py-1 text-white"
+          class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
         >
           <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
         </button>
@@ -128,7 +128,7 @@
           }, 400 + 50);
         }}
         disabled={$text_editing_status || $delete_category_mut.isPending}
-        class="btn bg-warning-700 rounded-md px-2 py-1"
+        class="btn rounded-md bg-warning-700 px-2 py-1"
       >
         <Icon src={AiOutlineEdit} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
       </button>
@@ -146,7 +146,7 @@
       >
         <button
           disabled={$delete_category_mut.isPending}
-          class="btn bg-error-600 rounded-md px-2 py-1"
+          class="btn rounded-md bg-error-600 px-2 py-1"
         >
           <Icon src={AiOutlineDelete} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
         </button>

@@ -104,8 +104,8 @@
   <div class="space-y-4">
     {#each Array.from({ length: 2 }) as _}
       <div class="space-y-1.5">
-        <div class="placeholder h-8 w-2/5 animate-pulse rounded-md"></div>
-        <div class="placeholder h-28 w-4/5 animate-pulse rounded-md"></div>
+        <div class="h-8 placeholder w-2/5 animate-pulse rounded-md"></div>
+        <div class="h-28 placeholder w-4/5 animate-pulse rounded-md"></div>
       </div>
     {/each}
   </div>
@@ -120,7 +120,7 @@
         new_item_name_element && new_item_name_element.focus();
       }, 400 + 50);
     }}
-    class="btn bg-tertiary-700 dark:bg-tertiary-700 gap-1 space-x-1 rounded-lg px-2 py-1 font-bold text-white outline-hidden"
+    class="btn gap-1 space-x-1 rounded-lg bg-tertiary-700 px-2 py-1 font-bold text-white outline-hidden dark:bg-tertiary-700"
   >
     <Icon src={VscAdd} class="text-2xl" />
     <span>Add New</span>
@@ -154,14 +154,14 @@
           }}
         >
           <button
-            class="btn bg-primary-700 dark:bg-primary-700 rounded-lg px-2 py-1 font-bold text-white"
+            class="btn rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
           >
             <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
           </button>
         </ConfirmPopover>
         <button
           onclick={() => (new_item_add_opened = false)}
-          class="btn bg-error-600 dark:bg-error-500 rounded-md px-1 py-1 text-white"
+          class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
         >
           <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
         </button>

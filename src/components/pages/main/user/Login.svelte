@@ -58,12 +58,12 @@
       required
     />
     {#if wrong_pass_or_user_status}
-      <div in:scale class="text-error-500 text-sm">Invalid Username or Password</div>
+      <div in:scale class="text-sm text-error-500">Invalid Username or Password</div>
     {/if}
     <button
       type="submit"
       disabled={$pass_verify.isPending}
-      class="btn bg-primary-700 gap-0 rounded-md px-2 py-0"
+      class="btn gap-0 rounded-md bg-primary-700 px-2 py-0"
     >
       <span class="text-white">Login</span>
     </button>
@@ -76,7 +76,7 @@
           callbackURL: '/'
         });
       }}
-      class="btn preset-outlined-tertiary-700-300 flex gap-2 rounded-lg font-semibold"
+      class="btn flex gap-2 rounded-lg preset-outlined-tertiary-700-300 font-semibold"
       ><Icon src={AiOutlineGithub} class="inline-block text-2xl" />Login with Github</button
     >
     <button
@@ -86,7 +86,7 @@
           callbackURL: '/'
         });
       }}
-      class="btn preset-outlined-secondary-700-300 flex gap-2 rounded-lg font-semibold"
+      class="btn flex gap-2 rounded-lg preset-outlined-secondary-700-300 font-semibold"
       ><Icon src={GoogleIcon} class="inline-block text-[1.25rem]" />Login with Google</button
     >
   </div>

@@ -40,7 +40,7 @@
         new_category_description_element && new_category_description_element.focus();
       }, 400 + 50);
     }}
-    class="btn bg-secondary-700 dark:bg-secondary-700 gap-1 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
+    class="btn gap-1 space-x-1 rounded-lg bg-secondary-700 px-2 py-1 font-bold text-white dark:bg-secondary-700"
   >
     <Icon src={VscAdd} class="text-2xl" />
     <span>Add New Cateogory</span>
@@ -69,7 +69,7 @@
     {/each}
   {:else}
     {#each Array.from({ length: 6 }) as _}
-      <div class="placeholder h-10 animate-pulse rounded-md"></div>
+      <div class="h-10 placeholder animate-pulse rounded-md"></div>
     {/each}
   {/if}
 </div>
@@ -99,14 +99,14 @@
     <button
       disabled={$add_new_cateogory_mut.isPending}
       type="submit"
-      class="btn bg-primary-700 dark:bg-primary-700 space-x-1 rounded-lg px-2 py-1 font-bold text-white"
+      class="btn space-x-1 rounded-lg bg-primary-700 px-2 py-1 font-bold text-white dark:bg-primary-700"
     >
       <Icon src={AiOutlinePlus} class="-mx-1 -my-1 text-2xl" />
     </button>
     <button
       disabled={$add_new_cateogory_mut.isPending}
       onclick={() => (add_section_opened = false)}
-      class="btn bg-error-600 dark:bg-error-500 rounded-md px-1 py-1 text-white"
+      class="btn rounded-md bg-error-600 px-1 py-1 text-white dark:bg-error-500"
     >
       <Icon src={RiSystemCloseLargeFill} class="-mt-1 text-xl" />
     </button>

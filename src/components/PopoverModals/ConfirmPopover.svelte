@@ -39,7 +39,7 @@
     <div class="text-lg font-bold">{description}</div>
     <div class="space-x-2">
       <button
-        class="btn preset-filled-surface-300-700 rounded-lg font-semibold"
+        class="btn rounded-lg preset-filled-surface-300-700 font-semibold"
         onclick={confirm_func}
       >
         Confirm
@@ -49,7 +49,7 @@
           popup_state = false;
           cancel_func && cancel_func();
         }}
-        class="btn preset-outlined-surface-800-200 rounded-lg font-semibold"
+        class="btn rounded-lg preset-outlined-surface-800-200 font-semibold"
       >
         Cancel
       </button>
