@@ -130,17 +130,14 @@
                 edit_popup_state = false;
               }}
             >
-              <button
-                disabled={$edit_item_mut.isPending}
-                class="m-0 btn rounded-md p-0 outline-hidden"
-              >
+              <button disabled={$edit_item_mut.isPending} class="btn rounded-md p-0 outline-hidden">
                 <Icon src={TiTick} class="-m-1 text-2xl" />
               </button>
             </ConfirmPopover>
             <button
               disabled={$edit_item_mut.isPending}
               onclick={() => (item_edit_status = false)}
-              class="m-0 btn rounded-md p-0 outline-hidden"
+              class="btn rounded-md p-0 outline-hidden"
             >
               <Icon src={AiOutlineClose} class="-m-1 text-xl" />
             </button>

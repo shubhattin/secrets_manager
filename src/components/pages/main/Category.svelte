@@ -75,7 +75,7 @@
 
 <div class="mb-4 flex space-x-7">
   <span class="space-x-2">
-    <button class="m-0 btn gap-0 p-0 outline-hidden" onclick={go_back_to_list}>
+    <button class="btn gap-0 p-0 outline-hidden" onclick={go_back_to_list}>
       <Icon src={TiArrowBackOutline} class="-mt-3 text-2xl" />
     </button>
     {#if !category_edit_status}
@@ -156,7 +156,7 @@
         class={cl_join('btn rounded-md p-0', $is_fetching && 'animate-spin')}
         onclick={refresh}
       >
-        <Icon src={RiSystemRefreshLine} class="-mt-1 -mr-1 -ml-1 text-2xl text-white" />
+        <Icon src={RiSystemRefreshLine} class="text-2xl text-white" />
       </button>
     </span>
   {/if}

@@ -55,7 +55,7 @@
         >
           {#snippet trigger()}
             <span
-              class="m-0 btn gap-1 rounded-md bg-error-600 pt-0 pr-2 pb-1 pl-1 font-bold text-white"
+              class="btn gap-1 rounded-md bg-error-600 pt-0 pr-2 pb-1 pl-1 font-bold text-white"
             >
               <Icon class="text-2xl" src={BiLogOut} />
               <span>Logout</span>
