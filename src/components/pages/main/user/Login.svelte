@@ -63,7 +63,7 @@
     <button
       type="submit"
       disabled={$pass_verify.isPending}
-      class="btn gap-0 rounded-md bg-primary-700 px-2 py-0"
+      class="btn gap-0 rounded-md bg-primary-700 px-2 py-1 font-semibold"
     >
       <span class="text-white">Login</span>
     </button>
