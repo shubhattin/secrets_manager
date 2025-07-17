@@ -32,7 +32,8 @@ const add_category_route = protectedProcedure
   .mutation(async ({ ctx: { user }, input: { description } }) => {
     await delay(600);
     const inserted_pr = db.insert(categories).values({ user_id: user.id, description }).returning();
-    const [inserted] = await Promise.all([inserted_pr, redis.del(`user:${user.id}:categories`)]);
+    const [inserted] = await Promise.all([inserted_pr]);
+    await Promise.allSettled([redis.del(`user:${user.id}:categories`)]);
     return inserted[0];
   });
 
@@ -43,7 +44,9 @@ const delete_category_route = protectedProcedure
     await Promise.allSettled([
       db
         .delete(categories)
-        .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id))),
+        .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id)))
+    ]);
+    await Promise.allSettled([
       redis.del(`user:${user.id}:categories`),
       redis.del(`category:${category_id}:user:${user.id}`),
       redis.del(`category:${category_id}:items`)
@@ -58,9 +61,9 @@ const update_category_info_route = protectedProcedure
       db
         .update(categories)
         .set({ description })
-        .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id))),
-      redis.del(`user:${user.id}:categories`)
+        .where(and(eq(categories.id, category_id), eq(categories.user_id, user.id)))
     ]);
+    await Promise.allSettled([redis.del(`user:${user.id}:categories`)]);
   });
 
 export const categories_router = t.router({

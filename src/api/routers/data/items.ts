@@ -67,10 +67,8 @@ const add_item_route = protectedProcedure
           text_encrypted
         })
         .returning();
-      const [inserted] = await Promise.all([
-        inserted_pr,
-        redis.del(`category:${category_id}:items`)
-      ]);
+      const [inserted] = await Promise.all([inserted_pr]);
+      await Promise.allSettled([redis.del(`category:${category_id}:items`)]);
       return inserted[0];
     }
   );
@@ -89,9 +87,9 @@ const delete_item_route = protectedProcedure
     // we have to make sure that the item_id -> category_id -> user_id
 
     await Promise.allSettled([
-      db.delete(items).where(and(eq(items.id, item_id), eq(items.category_id, category_id))),
-      redis.del(`category:${category_id}:items`)
+      db.delete(items).where(and(eq(items.id, item_id), eq(items.category_id, category_id)))
     ]);
+    await Promise.allSettled([redis.del(`category:${category_id}:items`)]);
   });
 
 const update_item_route = protectedProcedure
@@ -106,9 +104,9 @@ const update_item_route = protectedProcedure
       db
         .update(items)
         .set(input)
-        .where(and(eq(items.id, input.id), eq(items.category_id, input.category_id))),
-      redis.del(`category:${input.category_id}:items`)
+        .where(and(eq(items.id, input.id), eq(items.category_id, input.category_id)))
     ]);
+    await Promise.allSettled([redis.del(`category:${input.category_id}:items`)]);
 
     return input;
   });
