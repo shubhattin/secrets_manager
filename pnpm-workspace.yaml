@@ -1,0 +1,2 @@
+minimumReleaseAge: 1440 # Delays(minutes) updates until packages are at least 24 hours old 
+
